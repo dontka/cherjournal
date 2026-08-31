@@ -19,6 +19,50 @@ Cette phase a permis de poser la base technique et structurelle du projet Cher J
 
 Le projet a été initialisé dans le dossier de travail local puis les dépendances ont été installées. Une première difficulté a été rencontrée lors de l’installation Composer sur Windows, liée à des fichiers de cache temporaires bloqués, puis résolue avant de poursuivre le développement.
 
+## 3.1 Commandes nécessaires pour démarrer le projet
+
+Pour lancer le projet localement dans un environnement Laravel avec Livewire, Tailwind et Breeze, les commandes suivantes doivent être exécutées dans l’ordre :
+
+```bash
+# 1. Installer les dépendances PHP
+composer install
+
+# 2. Installer les dépendances JavaScript
+npm install
+
+# 3. Créer le fichier d'environnement (si nécessaire)
+copy .env.example .env
+
+# 4. Générer la clé de l'application
+php artisan key:generate
+
+# 5. Configurer la base de données dans .env puis exécuter les migrations
+php artisan migrate
+
+# 6. Charger les données de base (si un seed est prévu)
+php artisan db:seed
+
+# 7. Compiler les assets frontend
+npm run build
+
+# 8. Démarrer le serveur Laravel
+php artisan serve
+```
+
+En mode développement avec Vite, il est aussi possible d’utiliser :
+
+```bash
+npm run dev
+```
+
+Si le projet est déjà installé et que l’on veut simplement le relancer, la séquence minimale est :
+
+```bash
+php artisan migrate
+npm run dev
+php artisan serve
+```
+
 ## 4. Éléments mis en place
 
 ### 4.1 Base Laravel et installation de l’écosystème
