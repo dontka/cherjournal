@@ -64,6 +64,35 @@ class ProfileTest extends TestCase
         $this->assertNotNull($user->refresh()->email_verified_at);
     }
 
+    public function test_profile_identity_and_privacy_settings_can_be_updated(): void
+    {
+        $user = User::factory()->create();
+
+        $this->actingAs($user);
+
+        $component = Volt::test('profile.update-profile-information-form')
+            ->set('username', 'lavieencouleur')
+            ->set('display_name', 'La vie en couleur')
+            ->set('bio', 'Journal intime et moments lumineux.')
+            ->set('timezone', 'Europe/Paris')
+            ->set('is_public', true)
+            ->set('is_anonymous', true)
+            ->call('updateProfileInformation');
+
+        $component
+            ->assertHasNoErrors()
+            ->assertNoRedirect();
+
+        $user->refresh();
+
+        $this->assertSame('lavieencouleur', $user->username);
+        $this->assertSame('La vie en couleur', $user->profile->display_name);
+        $this->assertSame('Journal intime et moments lumineux.', $user->profile->bio);
+        $this->assertSame('Europe/Paris', $user->profile->timezone);
+        $this->assertTrue((bool) $user->profile->is_public);
+        $this->assertTrue((bool) $user->profile->is_anonymous);
+    }
+
     public function test_user_can_delete_their_account(): void
     {
         $user = User::factory()->create();

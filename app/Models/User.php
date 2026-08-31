@@ -28,6 +28,21 @@ class User extends Authenticatable
         'last_login_at',
     ];
 
+    protected static function booted(): void
+    {
+        static::created(function (self $user): void {
+            $user->profile()->firstOrCreate(
+                ['user_id' => $user->id],
+                [
+                    'username' => $user->username,
+                    'display_name' => $user->name,
+                    'is_public' => true,
+                    'is_anonymous' => false,
+                ]
+            );
+        });
+    }
+
     protected function casts(): array
     {
         return [
