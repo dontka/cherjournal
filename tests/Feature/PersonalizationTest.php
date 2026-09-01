@@ -55,6 +55,7 @@ class PersonalizationTest extends TestCase
             'amount' => 10,
             'action' => 'onboarding_completed',
         ]);
+        $this->get('/dashboard')->assertSee('data-cj-theme="forest"', false);
     }
 
     public function test_user_cannot_save_an_unknown_avatar(): void

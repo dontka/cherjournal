@@ -15,7 +15,7 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body data-cj-theme="{{ auth()->user()->profile?->theme ?: 'rose' }}" class="font-sans antialiased text-stone-800">
-        <div class="min-h-screen bg-[radial-gradient(circle_at_top,_rgba(246,215,208,0.35),_transparent_25%),linear-gradient(180deg,_#fffaf7_0%,_#f7f3f0_30%,_#f1f5f3_100%)]">
+        <div class="cj-theme-surface min-h-screen">
             <livewire:layout.navigation />
 
             <main class="pb-8">
