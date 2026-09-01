@@ -19,6 +19,9 @@ window.journalNoteEditor = function () {
             this.$nextTick(() => {
                 const element = this.$refs.editor;
                 const input = this.$refs.contentInput;
+                const toolbar = this.$refs.floatingToolbar;
+                const blockMenu = this.$refs.blockMenu;
+                const blockMenuButton = this.$refs.blockMenuButton;
 
                 if (!element || !input) {
                     return;
@@ -27,6 +30,99 @@ window.journalNoteEditor = function () {
                 if (element.__journalEditor) {
                     element.__journalEditor.destroy();
                 }
+
+                const runEditorCommand = (callback) => {
+                    const editor = window.__journalEditorInstance || this.editor;
+
+                    if (!editor || editor.isDestroyed) {
+                        return;
+                    }
+
+                    try {
+                        callback(editor);
+                    } catch (error) {
+                        if (error instanceof RangeError) {
+                            return;
+                        }
+
+                        throw error;
+                    }
+                };
+
+                const applyBlockType = (type) => {
+                    runEditorCommand((editor) => {
+                        const chain = editor.chain();
+
+                        switch (type) {
+                            case 'title':
+                                chain.toggleHeading({ level: 1 }).run();
+                                break;
+                            case 'heading':
+                                chain.toggleHeading({ level: 3 }).run();
+                                break;
+                            case 'paragraph':
+                                chain.setParagraph().run();
+                                break;
+                            case 'list':
+                                chain.toggleBulletList().run();
+                                break;
+                            case 'checklist':
+                                chain.toggleTaskList().run();
+                                break;
+                            case 'quote':
+                                chain.toggleBlockquote().run();
+                                break;
+                            case 'code':
+                                chain.toggleCodeBlock().run();
+                                break;
+                            case 'emoji':
+                                chain.insertContent('🙂 ').run();
+                                break;
+                            default:
+                                chain.setParagraph().run();
+                                break;
+                        }
+                    });
+
+                    if (blockMenu) {
+                        blockMenu.classList.add('hidden');
+                    }
+                };
+
+                const applyTextAction = (action) => {
+                    runEditorCommand((editor) => {
+                        const chain = editor.chain();
+
+                        switch (action) {
+                            case 'bold':
+                                chain.toggleBold().run();
+                                break;
+                            case 'italic':
+                                chain.toggleItalic().run();
+                                break;
+                            case 'strike':
+                                chain.toggleStrike().run();
+                                break;
+                            case 'highlight':
+                                chain.toggleHighlight().run();
+                                break;
+                            case 'align-left':
+                                chain.setTextAlign('left').run();
+                                break;
+                            case 'align-center':
+                                chain.setTextAlign('center').run();
+                                break;
+                            case 'align-right':
+                                chain.setTextAlign('right').run();
+                                break;
+                            case 'emoji':
+                                chain.insertContent('🙂 ').run();
+                                break;
+                            default:
+                                break;
+                        }
+                    });
+                };
 
                 const editor = new Editor({
                     element,
@@ -47,82 +143,72 @@ window.journalNoteEditor = function () {
                     content: input.value || '<h1>Journal</h1><p>Commencez ici…</p>',
                     editorProps: {
                         attributes: {
-                            class: 'tiptap-editor min-h-[360px] px-4 pb-6 pt-4 text-[15px] leading-7 text-stone-800 focus:outline-none',
+                            class: 'journal-prose-editor',
                         },
                     },
                     onUpdate: ({ editor }) => {
+                        if (!editor || editor.isDestroyed) {
+                            return;
+                        }
+
                         input.value = editor.getHTML();
                     },
                 });
 
                 element.__journalEditor = editor;
                 this.editor = editor;
+                window.__journalEditorInstance = editor;
+                input.value = editor.getHTML();
 
-                const applyBlockAction = (action) => {
-                    if (!editor || !editor.isEditable) {
-                        return;
-                    }
+                if (blockMenuButton) {
+                    blockMenuButton.addEventListener('click', (event) => {
+                        event.preventDefault();
+                        if (blockMenu) {
+                            blockMenu.classList.toggle('hidden');
+                        }
+                    });
+                }
 
-                    switch (action) {
-                        case 'title':
-                            editor.chain().focus().toggleHeading({ level: 1 }).run();
-                            break;
-                        case 'heading':
-                            editor.chain().focus().toggleHeading({ level: 3 }).run();
-                            break;
-                        case 'paragraph':
-                            editor.chain().focus().setParagraph().run();
-                            break;
-                        case 'bullet-list':
-                            editor.chain().focus().toggleBulletList().run();
-                            break;
-                        case 'task-list':
-                            editor.chain().focus().toggleTaskList().run();
-                            break;
-                        case 'quote':
-                            editor.chain().focus().toggleBlockquote().run();
-                            break;
-                        case 'code':
-                            editor.chain().focus().toggleCodeBlock().run();
-                            break;
-                        case 'bold':
-                            editor.chain().focus().toggleBold().run();
-                            break;
-                        case 'italic':
-                            editor.chain().focus().toggleItalic().run();
-                            break;
-                        case 'strike':
-                            editor.chain().focus().toggleStrike().run();
-                            break;
-                        case 'highlight':
-                            editor.chain().focus().toggleHighlight().run();
-                            break;
-                        case 'align-left':
-                            editor.chain().focus().setTextAlign('left').run();
-                            break;
-                        case 'align-center':
-                            editor.chain().focus().setTextAlign('center').run();
-                            break;
-                        case 'align-right':
-                            editor.chain().focus().setTextAlign('right').run();
-                            break;
-                        default:
-                            break;
-                    }
-                };
+                if (blockMenu) {
+                    blockMenu.querySelectorAll('[data-block-type]').forEach((button) => {
+                        button.addEventListener('click', (event) => {
+                            event.preventDefault();
+                            applyBlockType(button.dataset.blockType);
+                        });
+                    });
+                }
 
                 this.$el.querySelectorAll('[data-editor-action]').forEach((button) => {
                     button.addEventListener('click', (event) => {
                         event.preventDefault();
-                        applyBlockAction(button.dataset.editorAction);
+                        applyTextAction(button.dataset.editorAction);
                     });
                 });
+
+                const updateToolbar = () => {
+                    if (!toolbar) {
+                        return;
+                    }
+
+                    const hasFocus = element.contains(document.activeElement) || document.activeElement === element;
+                    toolbar.classList.toggle('opacity-0', !hasFocus);
+                    toolbar.classList.toggle('pointer-events-none', !hasFocus);
+                };
+
+                element.addEventListener('focusin', updateToolbar);
+                element.addEventListener('focusout', () => setTimeout(updateToolbar, 50));
+                updateToolbar();
             });
         },
         destroy() {
             if (this.editor) {
                 this.editor.destroy();
                 this.editor = null;
+            }
+
+            if (window.__journalEditorInstance) {
+                window.__journalEditorInstance.destroy();
+                window.__journalEditorInstance = null;
             }
 
             if (this.$refs.editor && this.$refs.editor.__journalEditor) {

@@ -107,29 +107,35 @@ new class extends Component
         <div>
             <label for="journal-content" class="mb-1 block text-sm font-medium text-stone-700">Écriture</label>
 
-            <div class="overflow-hidden rounded-[1.45rem] border border-stone-200 bg-white shadow-[0_10px_28px_rgba(42,31,25,0.05)]">
-                <div class="flex flex-wrap items-center gap-2 border-b border-stone-200 bg-stone-50 px-3 py-2.5">
-                    <button type="button" data-editor-action="title" class="rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-stone-700 transition hover:border-stone-300 hover:bg-stone-100">Titre</button>
-                    <button type="button" data-editor-action="heading" class="rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-stone-700 transition hover:border-stone-300 hover:bg-stone-100">Sous-titre</button>
-                    <button type="button" data-editor-action="paragraph" class="rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-stone-700 transition hover:border-stone-300 hover:bg-stone-100">Texte</button>
-                    <button type="button" data-editor-action="bullet-list" class="rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-stone-700 transition hover:border-stone-300 hover:bg-stone-100">Liste</button>
-                    <button type="button" data-editor-action="task-list" class="rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-stone-700 transition hover:border-stone-300 hover:bg-stone-100">Checklist</button>
-                    <button type="button" data-editor-action="quote" class="rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-stone-700 transition hover:border-stone-300 hover:bg-stone-100">Citation</button>
-                    <button type="button" data-editor-action="code" class="rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-stone-700 transition hover:border-stone-300 hover:bg-stone-100">Code</button>
-                </div>
+            <div class="journal-block-editor-shell">
+                <div class="journal-block-editor-frame">
+                    <button x-ref="blockMenuButton" type="button" class="journal-plus-button" aria-label="Ajouter un bloc">＋</button>
 
-                <div class="flex flex-wrap items-center gap-2 border-b border-stone-200 bg-white/80 px-3 py-2.5">
-                    <button type="button" data-editor-action="bold" class="rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-stone-700 transition hover:border-stone-300 hover:bg-stone-100">B</button>
-                    <button type="button" data-editor-action="italic" class="rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-stone-700 transition hover:border-stone-300 hover:bg-stone-100">I</button>
-                    <button type="button" data-editor-action="strike" class="rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-stone-700 transition hover:border-stone-300 hover:bg-stone-100">S</button>
-                    <button type="button" data-editor-action="highlight" class="rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-stone-700 transition hover:border-stone-300 hover:bg-stone-100">Mark</button>
-                    <button type="button" data-editor-action="align-left" class="rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-stone-700 transition hover:border-stone-300 hover:bg-stone-100">G</button>
-                    <button type="button" data-editor-action="align-center" class="rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-stone-700 transition hover:border-stone-300 hover:bg-stone-100">C</button>
-                    <button type="button" data-editor-action="align-right" class="rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-stone-700 transition hover:border-stone-300 hover:bg-stone-100">D</button>
-                </div>
+                    <div x-ref="blockMenu" class="journal-block-menu hidden">
+                        <button type="button" data-block-type="title">Titre</button>
+                        <button type="button" data-block-type="heading">Sous-titre</button>
+                        <button type="button" data-block-type="paragraph">Texte</button>
+                        <button type="button" data-block-type="list">Liste</button>
+                        <button type="button" data-block-type="checklist">Checklist</button>
+                        <button type="button" data-block-type="quote">Citation</button>
+                        <button type="button" data-block-type="code">Code</button>
+                        <button type="button" data-block-type="emoji">Emoji</button>
+                    </div>
 
-                <input type="hidden" x-ref="contentInput" id="journal-content" value="{{ $content }}" />
-                <div wire:ignore x-ref="editor" class="tiptap-editor" aria-label="Zone de rédaction du journal"></div>
+                    <div x-ref="floatingToolbar" class="journal-floating-toolbar">
+                        <button type="button" data-editor-action="bold" class="journal-toolbar-btn">B</button>
+                        <button type="button" data-editor-action="italic" class="journal-toolbar-btn">I</button>
+                        <button type="button" data-editor-action="strike" class="journal-toolbar-btn">S</button>
+                        <button type="button" data-editor-action="highlight" class="journal-toolbar-btn">Mark</button>
+                        <button type="button" data-editor-action="emoji" class="journal-toolbar-btn">🙂</button>
+                        <button type="button" data-editor-action="align-left" class="journal-toolbar-btn">G</button>
+                        <button type="button" data-editor-action="align-center" class="journal-toolbar-btn">C</button>
+                        <button type="button" data-editor-action="align-right" class="journal-toolbar-btn">D</button>
+                    </div>
+
+                    <input type="hidden" x-ref="contentInput" id="journal-content" value="{{ $content }}" />
+                    <div wire:ignore x-ref="editor" class="journal-prose-surface" aria-label="Zone de rédaction du journal"></div>
+                </div>
             </div>
 
             @error('content') <span class="mt-1 block text-xs text-red-600">{{ $message }}</span> @enderror
