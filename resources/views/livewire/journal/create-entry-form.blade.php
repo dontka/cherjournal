@@ -97,7 +97,7 @@ new class extends Component
         @endif
     </div>
 
-    <form wire:submit.prevent="saveEntry" class="space-y-4">
+    <form x-on:submit.prevent="$wire.set('content', $refs.contentInput.value); $wire.saveEntry();" class="space-y-4">
         <div>
             <label for="journal-title" class="mb-1 block text-sm font-medium text-stone-700">Titre</label>
             <input wire:model="title" id="journal-title" type="text" class="w-full rounded-2xl border border-stone-200 bg-white px-3 py-2.5 text-sm text-stone-900 focus:border-rose-400 focus:outline-none focus:ring-2 focus:ring-rose-100" placeholder="Une journée douce, un besoin, une intuition..." />
@@ -109,13 +109,13 @@ new class extends Component
 
             <div class="overflow-hidden rounded-[1.35rem] border border-stone-200 bg-white shadow-[0_8px_18px_rgba(42,31,25,0.02)]">
                 <div class="flex flex-wrap items-center gap-2 border-b border-stone-200 bg-stone-50 px-3 py-2.5">
-                    <button type="button" @click="toggleBold()" class="rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-stone-700 transition hover:border-stone-300 hover:bg-stone-100">Gras</button>
-                    <button type="button" @click="toggleItalic()" class="rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-stone-700 transition hover:border-stone-300 hover:bg-stone-100">Italique</button>
-                    <button type="button" @click="toggleBulletList()" class="rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-stone-700 transition hover:border-stone-300 hover:bg-stone-100">Liste</button>
-                    <button type="button" @click="setHeading()" class="rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-stone-700 transition hover:border-stone-300 hover:bg-stone-100">Titre</button>
+                    <button type="button" data-editor-action="bold" class="rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-stone-700 transition hover:border-stone-300 hover:bg-stone-100">Gras</button>
+                    <button type="button" data-editor-action="italic" class="rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-stone-700 transition hover:border-stone-300 hover:bg-stone-100">Italique</button>
+                    <button type="button" data-editor-action="bullet-list" class="rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-stone-700 transition hover:border-stone-300 hover:bg-stone-100">Liste</button>
+                    <button type="button" data-editor-action="heading" class="rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-stone-700 transition hover:border-stone-300 hover:bg-stone-100">Titre</button>
                 </div>
 
-                <input type="hidden" wire:model.defer="content" x-ref="contentInput" id="journal-content" value="{{ $content }}" />
+                <input type="hidden" x-ref="contentInput" id="journal-content" value="{{ $content }}" />
                 <div wire:ignore x-ref="editor" class="tiptap-editor" aria-label="Zone de rédaction du journal"></div>
             </div>
 

@@ -5,6 +5,12 @@ window.journalNoteEditor = function () {
     return {
         editor: null,
         init() {
+            if (this.$el.dataset.journalEditorInitialized === 'true') {
+                return;
+            }
+
+            this.$el.dataset.journalEditorInitialized = 'true';
+
             this.$nextTick(() => {
                 const element = this.$refs.editor;
                 const input = this.$refs.contentInput;
@@ -13,11 +19,11 @@ window.journalNoteEditor = function () {
                     return;
                 }
 
-                if (this.editor) {
-                    this.editor.destroy();
+                if (element.__journalEditor) {
+                    element.__journalEditor.destroy();
                 }
 
-                this.editor = new Editor({
+                const editor = new Editor({
                     element,
                     extensions: [StarterKit],
                     content: input.value || '<p></p>',
@@ -27,49 +33,58 @@ window.journalNoteEditor = function () {
                         },
                     },
                     onUpdate: ({ editor }) => {
-                        const html = editor.getHTML();
-                        input.value = html;
-                        input.dispatchEvent(new Event('input', { bubbles: true }));
+                        input.value = editor.getHTML();
                     },
                 });
+
+                element.__journalEditor = editor;
+                this.editor = editor;
+
+                this.$el.querySelectorAll('[data-editor-action]').forEach((button) => {
+                    button.addEventListener('click', (event) => {
+                        event.preventDefault();
+                        const action = button.dataset.editorAction;
+
+                        if (!editor || !editor.isEditable) {
+                            return;
+                        }
+
+                        if (action === 'bold') {
+                            editor.chain().focus().toggleBold().run();
+                            return;
+                        }
+
+                        if (action === 'italic') {
+                            editor.chain().focus().toggleItalic().run();
+                            return;
+                        }
+
+                        if (action === 'bullet-list') {
+                            editor.chain().focus().toggleBulletList().run();
+                            return;
+                        }
+
+                        if (action === 'heading') {
+                            const isHeading = editor.isActive('heading', { level: 3 });
+                            editor.chain().focus().toggleHeading({ level: 3 }).run();
+
+                            if (isHeading) {
+                                editor.chain().focus().setParagraph().run();
+                            }
+                        }
+                    });
+                });
             });
-        },
-        toggleBold() {
-            if (!this.editor) {
-                return;
-            }
-
-            this.editor.chain().focus().toggleBold().run();
-        },
-        toggleItalic() {
-            if (!this.editor) {
-                return;
-            }
-
-            this.editor.chain().focus().toggleItalic().run();
-        },
-        toggleBulletList() {
-            if (!this.editor) {
-                return;
-            }
-
-            this.editor.chain().focus().toggleBulletList().run();
-        },
-        setHeading() {
-            if (!this.editor) {
-                return;
-            }
-
-            const isHeading = this.editor.isActive('heading', { level: 3 });
-            this.editor.chain().focus().toggleHeading({ level: 3 }).run();
-            if (isHeading) {
-                this.editor.chain().focus().setParagraph().run();
-            }
         },
         destroy() {
             if (this.editor) {
                 this.editor.destroy();
                 this.editor = null;
+            }
+
+            if (this.$refs.editor && this.$refs.editor.__journalEditor) {
+                this.$refs.editor.__journalEditor.destroy();
+                this.$refs.editor.__journalEditor = null;
             }
         },
     };
