@@ -11,21 +11,21 @@
                 </div>
             </div>
 
-            <div class="grid gap-6 xl:grid-cols-[1.25fr_0.75fr]">
-                <div class="cj-shell p-4 sm:p-8">
+            <div class="grid gap-4 xl:grid-cols-12">
+                <div class="cj-bento xl:col-span-7 bg-[linear-gradient(135deg,_#fffaf8_0%,_#f3e7e3_100%)] p-4 sm:p-6">
                     <div class="max-w-2xl">
                         <livewire:profile.update-profile-information-form />
                     </div>
                 </div>
 
-                <div class="space-y-6">
-                    <div class="cj-shell p-4 sm:p-8">
+                <div class="space-y-4 xl:col-span-5">
+                    <div class="cj-bento bg-[linear-gradient(135deg,_#f4faf6_0%,_#ddefe3_100%)] p-4 sm:p-6">
                         <div class="max-w-xl">
                             <livewire:profile.update-password-form />
                         </div>
                     </div>
 
-                    <div class="cj-shell p-4 sm:p-8">
+                    <div class="cj-bento bg-[linear-gradient(135deg,_#fff5f5_0%,_#f8e3e6_100%)] p-4 sm:p-6">
                         <div class="max-w-xl">
                             <livewire:profile.delete-user-form />
                         </div>

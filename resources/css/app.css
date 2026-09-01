@@ -24,11 +24,30 @@ body {
 
 @layer components {
     .cj-shell {
-        @apply rounded-[1.75rem] border border-stone-200/80 bg-white/80 shadow-[0_18px_45px_rgba(54,42,31,0.06)] backdrop-blur-sm;
+        @apply rounded-[1.5rem] border border-stone-200/70 bg-white/80 shadow-[0_12px_30px_rgba(54,42,31,0.04)] backdrop-blur-sm;
     }
 
     .cj-bento {
-        @apply rounded-[1.75rem] border border-stone-200/80 bg-white/80 p-4 shadow-[0_18px_45px_rgba(54,42,31,0.06)] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_22px_48px_rgba(54,42,31,0.08)];
+        @apply relative overflow-hidden rounded-[1.5rem] border border-stone-200/70 bg-white/80 p-5 shadow-[0_12px_28px_rgba(54,42,31,0.04)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_36px_rgba(54,42,31,0.06)];
+    }
+
+    .cj-bento::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(255,255,255,0.7), rgba(255,255,255,0));
+        opacity: 0.9;
+        transition: transform 0.35s ease;
+        transform: translateX(12%) scale(1.05);
+    }
+
+    .cj-bento:hover::before {
+        transform: translateX(0) scale(1);
+    }
+
+    .cj-bento > * {
+        position: relative;
+        z-index: 1;
     }
 
     .cj-pill {
@@ -52,6 +71,6 @@ body {
     }
 
     .cj-auth-panel {
-        @apply rounded-[2rem] border border-stone-200/80 bg-white/80 shadow-[0_25px_70px_rgba(76,59,48,0.08)] backdrop-blur-sm;
+        @apply rounded-[1.75rem] border border-stone-200/70 bg-white/80 shadow-[0_14px_40px_rgba(76,59,48,0.06)] backdrop-blur-sm;
     }
 }

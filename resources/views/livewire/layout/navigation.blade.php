@@ -16,7 +16,7 @@ new class extends Component
     }
 }; ?>
 
-<nav x-data="{ open: false }" class="sticky top-0 z-50 border-b border-stone-200/80 bg-white/80 backdrop-blur-sm shadow-[0_10px_30px_rgba(70,58,52,0.04)]">
+<nav x-data="{ open: false }" class="sticky top-0 z-50 border-b border-stone-200/60 bg-white/80 backdrop-blur-sm shadow-[0_8px_22px_rgba(70,58,52,0.03)]">
     <div class="mx-auto max-w-[1400px] px-3 sm:px-4 lg:px-5">
         <div class="flex h-20 items-center justify-between gap-3">
             <div class="flex min-w-0 items-center gap-2 sm:gap-3">

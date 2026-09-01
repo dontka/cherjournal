@@ -1,31 +1,37 @@
 <x-app-layout>
     <div class="py-8">
         <div class="mx-auto max-w-[1380px] space-y-6 px-2 sm:px-3 lg:px-4">
-            <div class="grid gap-4 md:grid-cols-3 xl:grid-cols-4">
-                <div class="cj-bento md:col-span-1 xl:col-span-1 bg-[linear-gradient(135deg,_#fff8f6_0%,_#fbe8e2_100%)]">
+            <div class="grid gap-4 md:grid-cols-12">
+                <div class="cj-bento md:col-span-4 bg-[linear-gradient(135deg,_#fff7f3_0%,_#f9e4dc_100%)]">
                     <p class="text-sm text-stone-500">Entrées ce mois</p>
-                    <p class="mt-3 text-3xl font-bold text-stone-900">12</p>
-                    <p class="mt-2 text-xs uppercase tracking-[0.18em] text-stone-500">+ 4 vs. le mois dernier</p>
+                    <div class="mt-5 flex items-end justify-between gap-3">
+                        <p class="text-4xl font-bold text-stone-900">12</p>
+                        <span class="rounded-full bg-white/70 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-stone-600">+ 4%</span>
+                    </div>
+                    <p class="mt-3 text-xs uppercase tracking-[0.18em] text-stone-500">Mois précédent</p>
                 </div>
-                <div class="cj-bento md:col-span-1 xl:col-span-1 bg-[linear-gradient(135deg,_#f1faf5_0%,_#dff4e9_100%)]">
-                    <p class="text-sm text-stone-500">Soutiens reçus</p>
-                    <p class="mt-3 text-3xl font-bold text-stone-900">48</p>
-                    <p class="mt-2 text-xs uppercase tracking-[0.18em] text-stone-500">messages chaleureux</p>
+
+                <div class="cj-bento md:col-span-3 bg-[linear-gradient(135deg,_#edf9f2_0%,_#d9f3e4_100%)]">
+                    <p class="text-sm text-stone-500">Soutiens</p>
+                    <p class="mt-5 text-3xl font-bold text-stone-900">48</p>
+                    <p class="mt-3 text-xs uppercase tracking-[0.18em] text-stone-500">Messages</p>
                 </div>
-                <div class="cj-bento md:col-span-1 xl:col-span-1 bg-[linear-gradient(135deg,_#f5f0ff_0%,_#e7e0ff_100%)]">
-                    <p class="text-sm text-stone-500">Mood moyen</p>
-                    <p class="mt-3 text-3xl font-bold text-stone-900">Calme</p>
-                    <p class="mt-2 text-xs uppercase tracking-[0.18em] text-stone-500">stabilité douce</p>
+
+                <div class="cj-bento md:col-span-3 bg-[linear-gradient(135deg,_#f5f1ff_0%,_#e5dcff_100%)]">
+                    <p class="text-sm text-stone-500">Mood</p>
+                    <p class="mt-5 text-3xl font-bold text-stone-900">Calme</p>
+                    <p class="mt-3 text-xs uppercase tracking-[0.18em] text-stone-500">stable</p>
                 </div>
-                <div class="cj-bento md:col-span-1 xl:col-span-1 bg-[linear-gradient(135deg,_#f8f4ef_0%,_#efe3d9_100%)]">
-                    <p class="text-sm text-stone-500">Série actuelle</p>
-                    <p class="mt-3 text-3xl font-bold text-stone-900">9 jours</p>
-                    <p class="mt-2 text-xs uppercase tracking-[0.18em] text-stone-500">journal régulier</p>
+
+                <div class="cj-bento md:col-span-2 bg-[linear-gradient(135deg,_#f5f0ea_0%,_#eadfce_100%)]">
+                    <p class="text-sm text-stone-500">Série</p>
+                    <p class="mt-5 text-3xl font-bold text-stone-900">9j</p>
+                    <p class="mt-3 text-xs uppercase tracking-[0.18em] text-stone-500">suite</p>
                 </div>
             </div>
 
-            <div class="grid gap-4 xl:grid-cols-[1.2fr_0.8fr]">
-                <div class="cj-shell p-5 sm:p-6">
+            <div class="grid gap-4 xl:grid-cols-12">
+                <div class="cj-shell p-5 sm:p-6 xl:col-span-8">
                     <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                         <div>
                             <p class="text-sm font-medium uppercase tracking-[0.18em] text-stone-500">Aujourd’hui</p>
@@ -41,7 +47,7 @@
                     </div>
                 </div>
 
-                <div class="cj-shell p-5 sm:p-6">
+                <div class="cj-shell p-5 sm:p-6 xl:col-span-4">
                     <p class="text-sm font-medium uppercase tracking-[0.18em] text-stone-500">Récapitulatif</p>
                     <div class="mt-4 space-y-3">
                         <div class="flex items-center justify-between rounded-[1.2rem] bg-stone-50 px-3 py-3">
