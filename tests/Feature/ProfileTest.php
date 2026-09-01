@@ -77,6 +77,11 @@ class ProfileTest extends TestCase
             ->set('timezone', 'Europe/Paris')
             ->set('is_public', true)
             ->set('is_anonymous', true)
+            ->set('avatar_url', 'https://example.com/avatar.png')
+            ->set('email_notifications', true)
+            ->set('in_app_notifications', false)
+            ->set('comments_enabled', true)
+            ->set('comment_moderation', true)
             ->call('updateProfileInformation');
 
         $component
@@ -89,8 +94,13 @@ class ProfileTest extends TestCase
         $this->assertSame('La vie en couleur', $user->profile->display_name);
         $this->assertSame('Journal intime et moments lumineux.', $user->profile->bio);
         $this->assertSame('Europe/Paris', $user->profile->timezone);
+        $this->assertSame('https://example.com/avatar.png', $user->profile->avatar_url);
         $this->assertTrue((bool) $user->profile->is_public);
         $this->assertTrue((bool) $user->profile->is_anonymous);
+        $this->assertTrue((bool) $user->profile->email_notifications);
+        $this->assertFalse((bool) $user->profile->in_app_notifications);
+        $this->assertTrue((bool) $user->profile->comments_enabled);
+        $this->assertTrue((bool) $user->profile->comment_moderation);
     }
 
     public function test_user_can_delete_their_account(): void

@@ -16,11 +16,19 @@ class UserProfile extends Model
         'timezone',
         'is_public',
         'is_anonymous',
+        'email_notifications',
+        'in_app_notifications',
+        'comments_enabled',
+        'comment_moderation',
     ];
 
     protected $casts = [
         'is_public' => 'boolean',
         'is_anonymous' => 'boolean',
+        'email_notifications' => 'boolean',
+        'in_app_notifications' => 'boolean',
+        'comments_enabled' => 'boolean',
+        'comment_moderation' => 'boolean',
     ];
 
     public function user(): BelongsTo

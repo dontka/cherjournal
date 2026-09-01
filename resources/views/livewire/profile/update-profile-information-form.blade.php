@@ -14,8 +14,13 @@ new class extends Component
     public string $display_name = '';
     public string $bio = '';
     public string $timezone = 'UTC';
+    public string $avatar_url = '';
     public bool $is_public = true;
     public bool $is_anonymous = false;
+    public bool $email_notifications = true;
+    public bool $in_app_notifications = true;
+    public bool $comments_enabled = true;
+    public bool $comment_moderation = false;
 
     /**
      * Mount the component.
@@ -33,8 +38,13 @@ new class extends Component
         $this->display_name = $profile->display_name ?? '';
         $this->bio = $profile->bio ?? '';
         $this->timezone = $profile->timezone ?? 'UTC';
+        $this->avatar_url = $profile->avatar_url ?? '';
         $this->is_public = (bool) ($profile->is_public ?? true);
         $this->is_anonymous = (bool) ($profile->is_anonymous ?? false);
+        $this->email_notifications = (bool) ($profile->email_notifications ?? true);
+        $this->in_app_notifications = (bool) ($profile->in_app_notifications ?? true);
+        $this->comments_enabled = (bool) ($profile->comments_enabled ?? true);
+        $this->comment_moderation = (bool) ($profile->comment_moderation ?? false);
     }
 
     /**
@@ -54,8 +64,13 @@ new class extends Component
             'display_name' => ['nullable', 'string', 'max:255'],
             'bio' => ['nullable', 'string', 'max:1000'],
             'timezone' => ['nullable', 'string', 'max:255'],
+            'avatar_url' => ['nullable', 'url', 'max:500'],
             'is_public' => ['required', 'boolean'],
             'is_anonymous' => ['required', 'boolean'],
+            'email_notifications' => ['required', 'boolean'],
+            'in_app_notifications' => ['required', 'boolean'],
+            'comments_enabled' => ['required', 'boolean'],
+            'comment_moderation' => ['required', 'boolean'],
         ]);
 
         $user->fill([
@@ -75,8 +90,13 @@ new class extends Component
             'display_name' => $validated['display_name'] ?? null,
             'bio' => $validated['bio'] ?? null,
             'timezone' => $validated['timezone'] ?? 'UTC',
+            'avatar_url' => $validated['avatar_url'] ?? null,
             'is_public' => (bool) $validated['is_public'],
             'is_anonymous' => (bool) $validated['is_anonymous'],
+            'email_notifications' => (bool) $validated['email_notifications'],
+            'in_app_notifications' => (bool) $validated['in_app_notifications'],
+            'comments_enabled' => (bool) $validated['comments_enabled'],
+            'comment_moderation' => (bool) $validated['comment_moderation'],
         ]);
         $profile->save();
 
@@ -163,6 +183,12 @@ new class extends Component
         </div>
 
         <div>
+            <x-input-label for="avatar_url" :value="__('Avatar URL')" />
+            <x-text-input wire:model="avatar_url" id="avatar_url" name="avatar_url" type="url" class="mt-1 block w-full" placeholder="https://example.com/avatar.png" />
+            <x-input-error class="mt-2" :messages="$errors->get('avatar_url')" />
+        </div>
+
+        <div>
             <x-input-label for="bio" :value="__('Bio')" />
             <textarea wire:model="bio" id="bio" name="bio" rows="4" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full"></textarea>
             <x-input-error class="mt-2" :messages="$errors->get('bio')" />
@@ -177,6 +203,26 @@ new class extends Component
             <label class="flex items-center">
                 <input type="checkbox" wire:model="is_anonymous" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" />
                 <span class="ms-2 text-sm text-gray-600">{{ __('Anonymous mode') }}</span>
+            </label>
+
+            <label class="flex items-center">
+                <input type="checkbox" wire:model="email_notifications" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" />
+                <span class="ms-2 text-sm text-gray-600">{{ __('Email notifications') }}</span>
+            </label>
+
+            <label class="flex items-center">
+                <input type="checkbox" wire:model="in_app_notifications" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" />
+                <span class="ms-2 text-sm text-gray-600">{{ __('In-app notifications') }}</span>
+            </label>
+
+            <label class="flex items-center">
+                <input type="checkbox" wire:model="comments_enabled" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" />
+                <span class="ms-2 text-sm text-gray-600">{{ __('Comments enabled') }}</span>
+            </label>
+
+            <label class="flex items-center">
+                <input type="checkbox" wire:model="comment_moderation" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" />
+                <span class="ms-2 text-sm text-gray-600">{{ __('Moderate comments') }}</span>
             </label>
         </div>
 

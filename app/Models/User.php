@@ -36,11 +36,26 @@ class User extends Authenticatable
                 [
                     'username' => $user->username,
                     'display_name' => $user->name,
+                    'avatar_url' => $user->generateAvatarUrl(),
                     'is_public' => true,
                     'is_anonymous' => false,
+                    'email_notifications' => true,
+                    'in_app_notifications' => true,
+                    'comments_enabled' => true,
+                    'comment_moderation' => false,
                 ]
             );
         });
+    }
+
+    public function generateAvatarUrl(): string
+    {
+        $source = trim($this->username ?: $this->name ?: 'CJ');
+        $initials = strtoupper(substr(preg_replace('/[^A-Za-z0-9]/', '', $source), 0, 2));
+        $initials = $initials !== '' ? $initials : 'CJ';
+        $background = strtoupper(dechex(random_int(0, 0xFFFFFF)));
+
+        return 'https://ui-avatars.com/api/?name='.urlencode($initials).'&background='.trim($background, '#').'&color=fff&size=200';
     }
 
     protected function casts(): array
