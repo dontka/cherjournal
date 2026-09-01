@@ -17,6 +17,7 @@ class AvatarSeeder extends Seeder
         $sortOrder = 0;
 
         foreach (['default', 'anime', 'graphic'] as $category) {
+            $categoryOrder = 0;
             $files = collect(File::files(public_path('avatars/'.$category)))
                 ->filter(fn ($file): bool => in_array(strtolower($file->getExtension()), ['png', 'jpg', 'jpeg', 'webp'], true))
                 ->sortBy(fn ($file): string => $file->getFilename());
@@ -33,10 +34,11 @@ class AvatarSeeder extends Seeder
                         'category' => $category,
                         'is_active' => true,
                         'is_unlocked' => true,
-                        'required_points' => 0,
+                        'required_points' => $categoryOrder < 6 ? 0 : 25,
                         'sort_order' => $sortOrder++,
                     ],
                 );
+                $categoryOrder++;
             }
         }
     }

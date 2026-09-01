@@ -22,6 +22,18 @@ body {
     color: var(--cj-ink);
 }
 
+body[data-cj-theme='forest'] {
+    --cj-rose: #cfe3d4;
+    --cj-rose-strong: #91b59a;
+    background: linear-gradient(180deg, #f4faf5 0%, #e7f0e9 100%);
+}
+
+body[data-cj-theme='sun'] {
+    --cj-rose: #f4dfb4;
+    --cj-rose-strong: #d6ac5d;
+    background: linear-gradient(180deg, #fffaf0 0%, #f7eddb 100%);
+}
+
 @layer components {
     .cj-shell {
         @apply rounded-[1.1rem] border border-stone-200/80 bg-white/80 shadow-[0_10px_30px_rgba(54,42,31,0.05)] backdrop-blur-sm;

@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\JournalEntry;
+use App\Models\PointTransaction;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Livewire\Attributes\On;
@@ -64,7 +65,7 @@ new class extends Component
 
             $this->statusMessage = 'Publication mise à jour.';
         } else {
-            JournalEntry::create([
+            $entry = JournalEntry::create([
                 'user_id' => $user->id,
                 'title' => $validated['title'] ?: 'Sans titre',
                 'slug' => Str::slug($validated['title'] ?: 'sans-titre').'-'.time(),
@@ -73,6 +74,14 @@ new class extends Component
                 'status' => $validated['status'],
                 'visibility' => $validated['visibility'],
                 'is_anonymous' => $validated['is_anonymous'],
+            ]);
+
+            $user->profile()->increment('points', 5);
+            PointTransaction::create([
+                'user_id' => $user->id,
+                'amount' => 5,
+                'action' => 'journal_entry_created',
+                'metadata' => ['journal_entry_id' => $entry->id],
             ]);
 
             $this->statusMessage = $validated['status'] === 'published' ? 'Publication créée.' : 'Brouillon enregistré.';

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Auth;
 use App\Models\Avatar;
+use App\Models\PointTransaction;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 
@@ -13,6 +14,7 @@ new #[Layout('layouts.guest')] class extends Component
     public string $theme = 'rose';
     public array $menu = ['journal', 'dashboard', 'profile'];
     public bool $completed = false;
+    public int $profilePoints = 0;
 
     public function mount(): void
     {
@@ -21,6 +23,7 @@ new #[Layout('layouts.guest')] class extends Component
         $this->avatarKey = $profile->avatar_key ?: 'default-memo-1';
         $this->theme = $profile->theme ?: 'rose';
         $this->menu = $profile->menu ?: ['journal', 'dashboard', 'profile'];
+        $this->profilePoints = (int) $profile->points;
 
         if (! $this->avatars()[$this->avatarGroup()]) {
             return;
@@ -42,6 +45,8 @@ new #[Layout('layouts.guest')] class extends Component
                 'key' => $avatar->slug,
                 'label' => $avatar->name,
                 'src' => asset($avatar->file_path),
+                'required_points' => $avatar->required_points,
+                'locked' => $avatar->required_points > $this->profilePoints,
             ])
             ->all();
 
@@ -84,16 +89,17 @@ new #[Layout('layouts.guest')] class extends Component
             ->where('is_unlocked', true)
             ->first();
 
-        if (! $avatar) {
+        if (! $avatar || $avatar->required_points > (int) Auth::user()->profile?->points) {
             $this->addError('avatarKey', 'Choisis un avatar proposé pour cette catégorie.');
 
             return;
         }
-
         $profile = Auth::user()->profile()->firstOrCreate(['user_id' => Auth::id()]);
         $points = (int) $profile->points;
 
-        if (! $profile->onboarding_completed) {
+        $completedOnboarding = ! $profile->onboarding_completed;
+
+        if ($completedOnboarding) {
             $points += 10;
         }
 
@@ -107,6 +113,14 @@ new #[Layout('layouts.guest')] class extends Component
             'points' => $points,
             'onboarding_completed' => true,
         ]);
+
+        if ($completedOnboarding) {
+            PointTransaction::create([
+                'user_id' => Auth::id(),
+                'amount' => 10,
+                'action' => 'onboarding_completed',
+            ]);
+        }
 
         $this->completed = true;
         $this->redirect(route('dashboard', absolute: false), navigate: true);
@@ -156,13 +170,19 @@ new #[Layout('layouts.guest')] class extends Component
                     @endforeach
                 </div>
             @elseif ($step === 2)
-                <p class="text-sm text-stone-600">Choisis un avatar et une ambiance pour ton espace.</p>
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                    <p class="text-sm text-stone-600">Choisis un avatar et une ambiance pour ton espace.</p>
+                    <span class="rounded-full bg-stone-100 px-3 py-1 text-xs font-semibold text-stone-700">{{ $profilePoints }} points</span>
+                </div>
                 <div class="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3">
                     @foreach ($this->avatars()[$gender === 'prefer_not_to_say' ? 'neutral' : $gender] as $avatar)
-                        <label class="cursor-pointer rounded-2xl border p-3 text-center transition {{ $avatarKey === $avatar['key'] ? 'border-stone-900 bg-stone-50 ring-2 ring-stone-900' : 'border-stone-200 hover:border-stone-400' }}">
-                            <input wire:model.live="avatarKey" type="radio" value="{{ $avatar['key'] }}" class="sr-only" />
+                        <label class="cursor-pointer rounded-2xl border p-3 text-center transition {{ $avatar['locked'] ? 'cursor-not-allowed border-stone-200 bg-stone-100 opacity-60' : ($avatarKey === $avatar['key'] ? 'border-stone-900 bg-stone-50 ring-2 ring-stone-900' : 'border-stone-200 hover:border-stone-400') }}">
+                            <input wire:model.live="avatarKey" type="radio" value="{{ $avatar['key'] }}" class="sr-only" @disabled($avatar['locked']) />
                             <img src="{{ $avatar['src'] }}" alt="Avatar {{ $avatar['label'] }}" class="mx-auto h-20 w-20 rounded-full" />
                             <span class="mt-2 block text-xs font-semibold text-stone-700">{{ $avatar['label'] }}</span>
+                            @if ($avatar['locked'])
+                                <span class="mt-1 block text-[10px] text-stone-500">{{ $avatar['required_points'] }} points</span>
+                            @endif
                         </label>
                     @endforeach
                 </div>

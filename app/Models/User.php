@@ -86,4 +86,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(JournalEntry::class);
     }
+
+    public function pointTransactions(): HasMany
+    {
+        return $this->hasMany(PointTransaction::class);
+    }
 }
