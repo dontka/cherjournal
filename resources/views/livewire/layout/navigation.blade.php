@@ -17,11 +17,11 @@ new class extends Component
 }; ?>
 
 <nav x-data="{ open: false }" class="sticky top-0 z-50 border-b border-stone-200/80 bg-white/80 backdrop-blur-sm shadow-[0_10px_30px_rgba(70,58,52,0.04)]">
-    <div class="mx-auto max-w-7xl px-3 sm:px-4 lg:px-5">
-        <div class="flex h-16 items-center justify-between gap-2">
+    <div class="mx-auto max-w-[1400px] px-3 sm:px-4 lg:px-5">
+        <div class="flex h-20 items-center justify-between gap-3">
             <div class="flex min-w-0 items-center gap-2 sm:gap-3">
                 <a href="{{ route('dashboard') }}" wire:navigate class="flex shrink-0 items-center gap-2 sm:gap-3">
-                    <div class="flex h-9 w-9 items-center justify-center rounded-2xl bg-gradient-to-br from-rose-200 via-orange-100 to-emerald-100 text-sm font-bold text-stone-700 shadow-inner sm:h-10 sm:w-10">C</div>
+                    <div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-stone-900 via-stone-700 to-stone-500 text-sm font-bold text-white shadow-[0_12px_24px_rgba(28,25,23,0.18)] sm:h-11 sm:w-11">C</div>
                     <div class="hidden min-w-0 leading-tight sm:block">
                         <div class="truncate text-[10px] font-semibold uppercase tracking-[0.24em] text-stone-500">Cher Journal</div>
                         <div class="truncate text-sm font-semibold text-stone-800">Espace utilisateur</div>
@@ -29,18 +29,18 @@ new class extends Component
                 </a>
 
                 <div class="hidden items-center gap-2 md:flex">
-                    <a href="{{ route('dashboard') }}" wire:navigate class="rounded-full px-3 py-2 text-sm font-medium text-stone-600 transition hover:bg-stone-100 hover:text-stone-900 {{ request()->routeIs('dashboard') ? 'bg-stone-900 text-white' : '' }}">
+                    <a href="{{ route('dashboard') }}" wire:navigate class="rounded-full px-3.5 py-2 text-sm font-medium text-stone-600 transition hover:bg-stone-100 hover:text-stone-900 {{ request()->routeIs('dashboard') ? 'bg-stone-900 text-white' : '' }}">
                         {{ __('Mon journal') }}
                     </a>
-                    <a href="{{ route('profile') }}" wire:navigate class="rounded-full px-3 py-2 text-sm font-medium text-stone-600 transition hover:bg-stone-100 hover:text-stone-900 {{ request()->routeIs('profile') ? 'bg-stone-900 text-white' : '' }}">
+                    <a href="{{ route('profile') }}" wire:navigate class="rounded-full px-3.5 py-2 text-sm font-medium text-stone-600 transition hover:bg-stone-100 hover:text-stone-900 {{ request()->routeIs('profile') ? 'bg-stone-900 text-white' : '' }}">
                         {{ __('Mon profil') }}
                     </a>
                 </div>
             </div>
 
             <div class="hidden items-center gap-2 sm:flex">
-                <div class="flex items-center gap-2 rounded-full border border-stone-200 bg-stone-50 px-2 py-1.5">
-                    <div class="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-br from-rose-200 to-orange-100 text-[11px] font-bold text-stone-700">
+                <div class="flex items-center gap-2 rounded-full border border-stone-200 bg-stone-50 px-2 py-1.5 shadow-[0_8px_20px_rgba(70,58,52,0.03)]">
+                    <div class="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-rose-200 to-orange-100 text-[11px] font-bold text-stone-700">
                         {{ strtoupper(substr(auth()->user()->name ?? 'C', 0, 1)) }}
                     </div>
                     <div class="hidden text-left leading-tight xl:block">

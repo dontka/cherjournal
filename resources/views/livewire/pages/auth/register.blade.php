@@ -39,9 +39,10 @@ new #[Layout('layouts.guest')] class extends Component
 }; ?>
 
 <div>
-    <div class="mb-8 text-center lg:text-left">
+    <div class="mb-6 rounded-[1.5rem] border border-stone-200 bg-stone-50/80 p-4">
         <p class="text-[10px] font-semibold uppercase tracking-[0.24em] text-stone-500">Créer un compte</p>
         <h1 class="mt-2 text-3xl font-semibold text-stone-900">Bienvenue.</h1>
+        <p class="mt-2 text-sm text-stone-600">L’espace où l’on peut écrire sans pression et se sentir accompagné.</p>
     </div>
 
     <form wire:submit="register" class="space-y-5">
@@ -81,12 +82,12 @@ new #[Layout('layouts.guest')] class extends Component
         </div>
 
         <div class="pt-2">
-            <x-primary-button class="w-full justify-center rounded-xl bg-stone-900 px-4 py-3 text-sm font-medium text-white shadow-sm hover:bg-stone-700">
+            <button type="submit" class="cj-button-primary w-full">
                 {{ __('Créer mon compte') }}
-            </x-primary-button>
+            </button>
         </div>
 
-        <div class="pt-2 text-center text-sm text-stone-600">
+        <div class="rounded-[1.25rem] border border-stone-200 bg-stone-50/80 p-3 text-center text-sm text-stone-600">
             Déjà inscrit ?
             <a href="{{ route('login') }}" class="font-medium text-stone-900 underline-offset-4 hover:underline" wire:navigate>Se connecter</a>
         </div>
