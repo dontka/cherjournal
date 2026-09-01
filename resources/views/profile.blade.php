@@ -1,12 +1,6 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="text-xl font-semibold leading-tight text-stone-800">
-            {{ __('Mon profil') }}
-        </h2>
-    </x-slot>
-
-    <div class="py-10">
-        <div class="mx-auto max-w-6xl space-y-6 px-4 sm:px-6 lg:px-8">
+    <div class="py-8">
+        <div class="mx-auto max-w-6xl space-y-6 px-3 sm:px-4 lg:px-5">
             <div class="cj-shell px-6 py-5 sm:px-8">
                 <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
                     <div>

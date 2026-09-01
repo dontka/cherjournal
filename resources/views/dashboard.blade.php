@@ -1,12 +1,6 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="text-xl font-semibold leading-tight text-stone-800">
-            {{ __('Mon journal') }}
-        </h2>
-    </x-slot>
-
-    <div class="py-10">
-        <div class="mx-auto max-w-7xl space-y-6 px-4 sm:px-6 lg:px-8">
+    <div class="py-8">
+        <div class="mx-auto max-w-6xl space-y-6 px-3 sm:px-4 lg:px-5">
             <div class="grid gap-4 md:grid-cols-3">
                 <div class="rounded-3xl border border-rose-100 bg-gradient-to-br from-rose-50 to-white p-5 shadow-sm">
                     <p class="text-sm text-stone-500">Entrées ce mois</p>
