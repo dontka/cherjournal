@@ -21,6 +21,7 @@ new class extends Component
     public bool $in_app_notifications = true;
     public bool $comments_enabled = true;
     public bool $comment_moderation = false;
+    public bool $profileSaved = false;
 
     /**
      * Mount the component.
@@ -100,6 +101,7 @@ new class extends Component
         ]);
         $profile->save();
 
+        $this->profileSaved = true;
         $this->dispatch('profile-updated', name: $user->name);
     }
 
@@ -242,6 +244,12 @@ new class extends Component
 
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('Save') }}</x-primary-button>
+
+            @if ($profileSaved)
+                <div class="rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-sm font-medium text-emerald-700">
+                    Profil mis à jour.
+                </div>
+            @endif
 
             <x-action-message class="me-3" on="profile-updated">
                 {{ __('Saved.') }}

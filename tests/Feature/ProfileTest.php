@@ -103,6 +103,34 @@ class ProfileTest extends TestCase
         $this->assertTrue((bool) $user->profile->comment_moderation);
     }
 
+    public function test_profile_update_sets_success_flash_message(): void
+    {
+        $user = User::factory()->create();
+
+        $this->actingAs($user);
+
+        $component = Volt::test('profile.update-profile-information-form')
+            ->set('name', 'Alice')
+            ->set('email', 'alice@example.com')
+            ->set('username', 'alice')
+            ->set('display_name', 'Alice')
+            ->set('bio', 'Nouveau journal.')
+            ->set('timezone', 'Europe/Paris')
+            ->set('avatar_url', 'https://example.com/avatar.png')
+            ->set('is_public', true)
+            ->set('is_anonymous', false)
+            ->set('email_notifications', true)
+            ->set('in_app_notifications', true)
+            ->set('comments_enabled', true)
+            ->set('comment_moderation', false)
+            ->call('updateProfileInformation');
+
+        $component
+            ->assertHasNoErrors()
+            ->assertNoRedirect()
+            ->assertSee('Profil mis à jour.');
+    }
+
     public function test_user_can_delete_their_account(): void
     {
         $user = User::factory()->create();
