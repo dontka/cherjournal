@@ -83,7 +83,10 @@ new class extends Component
                             <h4 class="text-lg font-bold text-stone-900">{{ $entry->title ?: 'Sans titre' }}</h4>
                             <span class="rounded-full bg-white px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-stone-500">{{ $entry->status }}</span>
                         </div>
-                        <p class="mt-2 text-sm leading-6 text-stone-600">{{ Str::limit($entry->content, 160) }}</p>
+                        @php
+                            $preview = trim(preg_replace('/\s+/', ' ', strip_tags($entry->content ?? '')));
+                        @endphp
+                        <p class="mt-2 text-sm leading-6 text-stone-600">{{ Str::limit($preview ?: 'Aucun contenu', 160) }}</p>
                     </div>
 
                     <div class="flex items-center gap-2">

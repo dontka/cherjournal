@@ -50,9 +50,12 @@
 
                     <div class="mt-5 rounded-[1rem] border border-dashed border-stone-300 bg-stone-50 p-5 text-sm leading-7 text-stone-600 sm:p-6">
                         @if ($latestEntry)
+                            @php
+                                $latestEntryPreview = trim(preg_replace('/\s+/', ' ', strip_tags($latestEntry->content ?? '')));
+                            @endphp
                             <p class="font-medium text-stone-800">Dernière note :</p>
                             <p class="mt-2 text-stone-700">{{ $latestEntry->title ?: 'Sans titre' }}</p>
-                            <p class="mt-2 text-stone-600">{{ \Illuminate\Support\Str::limit($latestEntry->content, 180) }}</p>
+                            <p class="mt-2 text-stone-600">{{ \Illuminate\Support\Str::limit($latestEntryPreview ?: 'Aucun contenu', 180) }}</p>
                         @else
                             Un espace pour faire le point, exprimer ce que l’on ressent et reprendre le contrôle de son rythme sans jugement.
                         @endif

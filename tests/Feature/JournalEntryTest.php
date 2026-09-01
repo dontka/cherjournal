@@ -143,6 +143,27 @@ class JournalEntryTest extends TestCase
         $this->assertDatabaseMissing('journal_entries', ['id' => $entry->id]);
     }
 
+    public function test_journal_history_preview_strips_html_tags(): void
+    {
+        $user = User::factory()->create();
+        JournalEntry::create([
+            'user_id' => $user->id,
+            'title' => 'Note enrichie',
+            'slug' => 'note-enrichie',
+            'content' => '<p>Bonjour <strong>monde</strong> et <em>merci</em>.</p><p>Suite de texte.</p>',
+            'status' => 'published',
+            'visibility' => 'private',
+            'is_anonymous' => false,
+        ]);
+
+        $this->actingAs($user)
+            ->get('/dashboard')
+            ->assertOk()
+            ->assertSee('Bonjour monde et merci.')
+            ->assertDontSee('<p>Bonjour')
+            ->assertDontSee('<strong>');
+    }
+
     public function test_dashboard_displays_user_journal_summary_and_actions(): void
     {
         $user = User::factory()->create();
