@@ -111,8 +111,14 @@ new class extends Component
                 <div class="flex flex-wrap items-center gap-2 border-b border-stone-200 bg-stone-50 px-3 py-2.5">
                     <button type="button" data-editor-action="bold" class="rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-stone-700 transition hover:border-stone-300 hover:bg-stone-100">Gras</button>
                     <button type="button" data-editor-action="italic" class="rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-stone-700 transition hover:border-stone-300 hover:bg-stone-100">Italique</button>
+                    <button type="button" data-editor-action="strike" class="rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-stone-700 transition hover:border-stone-300 hover:bg-stone-100">Barré</button>
+                    <button type="button" data-editor-action="highlight" class="rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-stone-700 transition hover:border-stone-300 hover:bg-stone-100">Surligner</button>
                     <button type="button" data-editor-action="bullet-list" class="rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-stone-700 transition hover:border-stone-300 hover:bg-stone-100">Liste</button>
+                    <button type="button" data-editor-action="task-list" class="rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-stone-700 transition hover:border-stone-300 hover:bg-stone-100">Checklist</button>
                     <button type="button" data-editor-action="heading" class="rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-stone-700 transition hover:border-stone-300 hover:bg-stone-100">Titre</button>
+                    <button type="button" data-editor-action="align-left" class="rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-stone-700 transition hover:border-stone-300 hover:bg-stone-100">G</button>
+                    <button type="button" data-editor-action="align-center" class="rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-stone-700 transition hover:border-stone-300 hover:bg-stone-100">C</button>
+                    <button type="button" data-editor-action="align-right" class="rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-stone-700 transition hover:border-stone-300 hover:bg-stone-100">D</button>
                 </div>
 
                 <input type="hidden" x-ref="contentInput" id="journal-content" value="{{ $content }}" />
