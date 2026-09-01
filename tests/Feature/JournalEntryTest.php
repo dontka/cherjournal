@@ -76,6 +76,45 @@ class JournalEntryTest extends TestCase
         $this->assertSame('public', $entry->visibility);
     }
 
+    public function test_user_can_edit_an_existing_entry(): void
+    {
+        $user = User::factory()->create();
+        $entry = JournalEntry::create([
+            'user_id' => $user->id,
+            'title' => 'Premier jet',
+            'slug' => 'premier-jet',
+            'content' => 'Ce texte est ancien et doit être remplacé.',
+            'status' => 'draft',
+            'visibility' => 'private',
+            'is_anonymous' => false,
+        ]);
+
+        $this->actingAs($user);
+
+        $component = Volt::test('journal.create-entry-form')
+            ->set('entryId', $entry->id)
+            ->set('title', 'Premier jet mis à jour')
+            ->set('content', 'Ce texte a été réécrit pour refléter une idée plus claire.')
+            ->set('status', 'published')
+            ->set('visibility', 'public')
+            ->set('is_anonymous', true)
+            ->call('saveEntry');
+
+        $component
+            ->assertHasNoErrors()
+            ->assertNoRedirect()
+            ->assertSee('Publication mise à jour.');
+
+        $this->assertDatabaseHas('journal_entries', [
+            'id' => $entry->id,
+            'title' => 'Premier jet mis à jour',
+            'content' => 'Ce texte a été réécrit pour refléter une idée plus claire.',
+            'status' => 'published',
+            'visibility' => 'public',
+            'is_anonymous' => true,
+        ]);
+    }
+
     public function test_user_can_archive_and_delete_an_entry(): void
     {
         $user = User::factory()->create();

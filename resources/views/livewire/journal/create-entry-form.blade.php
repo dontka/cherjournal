@@ -7,12 +7,33 @@ use Livewire\Volt\Component;
 
 new class extends Component
 {
+    public ?int $entryId = null;
     public string $title = '';
     public string $content = '';
     public string $status = 'draft';
     public string $visibility = 'private';
     public bool $is_anonymous = false;
     public string $statusMessage = '';
+
+    public function mount(): void
+    {
+        $this->status = 'draft';
+        $this->visibility = 'private';
+        $this->is_anonymous = false;
+    }
+
+    public function loadEntry(int $entryId): void
+    {
+        $entry = Auth::user()->journalEntries()->findOrFail($entryId);
+
+        $this->entryId = $entry->id;
+        $this->title = $entry->title;
+        $this->content = $entry->content;
+        $this->status = $entry->status;
+        $this->visibility = $entry->visibility;
+        $this->is_anonymous = (bool) $entry->is_anonymous;
+        $this->statusMessage = '';
+    }
 
     public function saveEntry(): void
     {
@@ -26,19 +47,34 @@ new class extends Component
 
         $user = Auth::user();
 
-        JournalEntry::create([
-            'user_id' => $user->id,
-            'title' => $validated['title'] ?: 'Sans titre',
-            'slug' => Str::slug($validated['title'] ?: 'sans-titre').'-'.time(),
-            'content' => $validated['content'],
-            'excerpt' => Str::limit(strip_tags($validated['content']), 180),
-            'status' => $validated['status'],
-            'visibility' => $validated['visibility'],
-            'is_anonymous' => $validated['is_anonymous'],
-        ]);
+        if ($this->entryId) {
+            $entry = $user->journalEntries()->findOrFail($this->entryId);
+            $entry->update([
+                'title' => $validated['title'] ?: 'Sans titre',
+                'content' => $validated['content'],
+                'excerpt' => Str::limit(strip_tags($validated['content']), 180),
+                'status' => $validated['status'],
+                'visibility' => $validated['visibility'],
+                'is_anonymous' => $validated['is_anonymous'],
+            ]);
 
-        $this->statusMessage = $validated['status'] === 'published' ? 'Publication créée.' : 'Brouillon enregistré.';
-        $this->reset(['title', 'content', 'status', 'visibility', 'is_anonymous']);
+            $this->statusMessage = 'Publication mise à jour.';
+        } else {
+            JournalEntry::create([
+                'user_id' => $user->id,
+                'title' => $validated['title'] ?: 'Sans titre',
+                'slug' => Str::slug($validated['title'] ?: 'sans-titre').'-'.time(),
+                'content' => $validated['content'],
+                'excerpt' => Str::limit(strip_tags($validated['content']), 180),
+                'status' => $validated['status'],
+                'visibility' => $validated['visibility'],
+                'is_anonymous' => $validated['is_anonymous'],
+            ]);
+
+            $this->statusMessage = $validated['status'] === 'published' ? 'Publication créée.' : 'Brouillon enregistré.';
+        }
+
+        $this->reset(['entryId', 'title', 'content', 'status', 'visibility', 'is_anonymous']);
         $this->status = 'draft';
         $this->visibility = 'private';
         $this->is_anonymous = false;
@@ -51,7 +87,7 @@ new class extends Component
     <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <div>
             <p class="text-[10px] font-semibold uppercase tracking-[0.22em] text-stone-500">Mon journal</p>
-            <h3 class="mt-2 text-2xl font-bold text-stone-900">Écrire une nouvelle entrée</h3>
+            <h3 class="mt-2 text-2xl font-bold text-stone-900">{{ $entryId ? 'Modifier une entrée' : 'Écrire une nouvelle entrée' }}</h3>
         </div>
 
         @if ($statusMessage)

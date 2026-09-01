@@ -22,6 +22,11 @@ new class extends Component
         $this->entries = $this->getEntriesProperty();
     }
 
+    public function editEntry(int $entryId): void
+    {
+        $this->dispatch('edit-journal-entry', entryId: $entryId);
+    }
+
     public function deleteEntry(int $entryId): void
     {
         $entry = Auth::user()->journalEntries()->findOrFail($entryId);
@@ -82,6 +87,7 @@ new class extends Component
                     </div>
 
                     <div class="flex items-center gap-2">
+                        <button type="button" wire:click="editEntry({{ $entry->id }})" class="rounded-full border border-stone-200 bg-white px-3 py-1.5 text-xs font-semibold text-stone-700">Modifier</button>
                         @if ($entry->status !== 'archived')
                             <button type="button" wire:click="archiveEntry({{ $entry->id }})" class="rounded-full border border-stone-200 bg-white px-3 py-1.5 text-xs font-semibold text-stone-700">Archiver</button>
                         @endif
