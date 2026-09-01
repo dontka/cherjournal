@@ -1,17 +1,6 @@
 <x-app-layout>
     <div class="py-8">
         <div class="mx-auto max-w-[1380px] space-y-5 px-2 sm:px-3 lg:px-4">
-            @php
-                $stats = auth()->user()->journalEntries()
-                    ->selectRaw("COUNT(*) as total, SUM(CASE WHEN status = 'draft' THEN 1 ELSE 0 END) as drafts, SUM(CASE WHEN status = 'published' THEN 1 ELSE 0 END) as published, SUM(CASE WHEN status = 'archived' THEN 1 ELSE 0 END) as archived")
-                    ->first();
-                $total = (int) $stats->total;
-                $drafts = (int) $stats->drafts;
-                $published = (int) $stats->published;
-                $archived = (int) $stats->archived;
-                $latestEntry = auth()->user()->journalEntries()->latest()->first();
-            @endphp
-
             <div class="grid grid-cols-4 gap-2 sm:gap-3 lg:gap-4">
                 <div class="cj-bento group min-w-0 overflow-hidden bg-[linear-gradient(135deg,_#fff8f6_0%,_#fbe8e2_100%)]">
                     <p class="whitespace-nowrap text-[7px] font-semibold uppercase tracking-[0.18em] text-stone-500 sm:text-[8px] lg:text-[10px]">Total</p>

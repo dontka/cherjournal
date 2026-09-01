@@ -4,27 +4,20 @@ use App\Models\JournalEntry;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Livewire\Volt\Component;
+use Livewire\WithPagination;
 
 new class extends Component
 {
-    public string $filter = 'all';
-    public int $page = 1;
-    public int $perPage = 4;
-    public int $totalEntries = 0;
-    public int $totalPages = 1;
-    public $entries = [];
+    use WithPagination;
 
-    public function mount(): void
-    {
-        $this->entries = $this->getEntriesProperty();
-    }
+    public string $filter = 'all';
+    public int $perPage = 4;
 
     public function archiveEntry(int $entryId): void
     {
         $entry = Auth::user()->journalEntries()->findOrFail($entryId);
         $entry->update(['status' => 'archived']);
-        $this->page = 1;
-        $this->entries = $this->getEntriesProperty();
+        $this->resetPage();
     }
 
     public function editEntry(int $entryId): void
@@ -36,29 +29,15 @@ new class extends Component
     {
         $entry = Auth::user()->journalEntries()->findOrFail($entryId);
         $entry->delete();
-        $this->page = 1;
-        $this->entries = $this->getEntriesProperty();
+        $this->resetPage();
     }
 
     public function updatedFilter(): void
     {
-        $this->page = 1;
-        $this->entries = $this->getEntriesProperty();
+        $this->resetPage();
     }
 
-    public function nextPage(): void
-    {
-        $this->page++;
-        $this->entries = $this->getEntriesProperty();
-    }
-
-    public function previousPage(): void
-    {
-        $this->page = max(1, $this->page - 1);
-        $this->entries = $this->getEntriesProperty();
-    }
-
-    public function getEntriesProperty()
+    public function with(): array
     {
         $query = Auth::user()->journalEntries()->latest();
 
@@ -66,13 +45,9 @@ new class extends Component
             $query->where('status', $this->filter);
         }
 
-        $this->totalEntries = $query->count();
-        $this->totalPages = max(1, (int) ceil($this->totalEntries / $this->perPage));
-        $this->page = max(1, min($this->page, $this->totalPages));
-
-        return $query->skip(($this->page - 1) * $this->perPage)
-            ->take($this->perPage)
-            ->get();
+        return [
+            'entries' => $query->paginate($this->perPage),
+        ];
     }
 }; ?>
 
@@ -130,17 +105,17 @@ new class extends Component
         @endforelse
     </div>
 
-    @if ($totalEntries > $this->perPage)
+    @if ($entries->hasPages())
         <div class="flex items-center justify-between border-t border-stone-200 pt-4">
-            <button type="button" wire:click="previousPage" @disabled($this->page <= 1) class="rounded-full border border-stone-200 bg-white px-3 py-1.5 text-xs font-semibold text-stone-700 disabled:cursor-not-allowed disabled:opacity-50">
+            <button type="button" wire:click="previousPage" @disabled($entries->onFirstPage()) class="rounded-full border border-stone-200 bg-white px-3 py-1.5 text-xs font-semibold text-stone-700 disabled:cursor-not-allowed disabled:opacity-50">
                 Précédent
             </button>
 
             <span class="text-xs font-medium text-stone-600">
-                Page {{ $this->page }} / {{ $totalPages }}
+                Page {{ $entries->currentPage() }} / {{ $entries->lastPage() }}
             </span>
 
-            <button type="button" wire:click="nextPage" @disabled($this->page >= $totalPages) class="rounded-full border border-stone-200 bg-white px-3 py-1.5 text-xs font-semibold text-stone-700 disabled:cursor-not-allowed disabled:opacity-50">
+            <button type="button" wire:click="nextPage" @disabled(! $entries->hasMorePages()) class="rounded-full border border-stone-200 bg-white px-3 py-1.5 text-xs font-semibold text-stone-700 disabled:cursor-not-allowed disabled:opacity-50">
                 Suivant
             </button>
         </div>
