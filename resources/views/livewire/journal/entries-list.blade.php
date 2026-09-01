@@ -10,6 +10,8 @@ new class extends Component
     public string $filter = 'all';
     public int $page = 1;
     public int $perPage = 4;
+    public int $totalEntries = 0;
+    public int $totalPages = 1;
     public $entries = [];
 
     public function mount(): void
@@ -64,9 +66,9 @@ new class extends Component
             $query->where('status', $this->filter);
         }
 
-        $total = $query->count();
-        $lastPage = max(1, (int) ceil($total / $this->perPage));
-        $this->page = max(1, min($this->page, $lastPage));
+        $this->totalEntries = $query->count();
+        $this->totalPages = max(1, (int) ceil($this->totalEntries / $this->perPage));
+        $this->page = max(1, min($this->page, $this->totalPages));
 
         return $query->skip(($this->page - 1) * $this->perPage)
             ->take($this->perPage)
@@ -128,15 +130,7 @@ new class extends Component
         @endforelse
     </div>
 
-    @php
-        $totalEntries = Auth::user()->journalEntries();
-        if ($this->filter !== 'all') {
-            $totalEntries = $totalEntries->where('status', $this->filter);
-        }
-        $totalPages = max(1, (int) ceil($totalEntries->count() / $this->perPage));
-    @endphp
-
-    @if ($totalEntries->count() > $this->perPage)
+    @if ($totalEntries > $this->perPage)
         <div class="flex items-center justify-between border-t border-stone-200 pt-4">
             <button type="button" wire:click="previousPage" @disabled($this->page <= 1) class="rounded-full border border-stone-200 bg-white px-3 py-1.5 text-xs font-semibold text-stone-700 disabled:cursor-not-allowed disabled:opacity-50">
                 Précédent

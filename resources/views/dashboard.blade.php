@@ -2,11 +2,13 @@
     <div class="py-8">
         <div class="mx-auto max-w-[1380px] space-y-5 px-2 sm:px-3 lg:px-4">
             @php
-                $entries = auth()->user()->journalEntries();
-                $total = $entries->count();
-                $drafts = $entries->where('status', 'draft')->count();
-                $published = $entries->where('status', 'published')->count();
-                $archived = $entries->where('status', 'archived')->count();
+                $stats = auth()->user()->journalEntries()
+                    ->selectRaw("COUNT(*) as total, SUM(CASE WHEN status = 'draft' THEN 1 ELSE 0 END) as drafts, SUM(CASE WHEN status = 'published' THEN 1 ELSE 0 END) as published, SUM(CASE WHEN status = 'archived' THEN 1 ELSE 0 END) as archived")
+                    ->first();
+                $total = (int) $stats->total;
+                $drafts = (int) $stats->drafts;
+                $published = (int) $stats->published;
+                $archived = (int) $stats->archived;
                 $latestEntry = auth()->user()->journalEntries()->latest()->first();
             @endphp
 
