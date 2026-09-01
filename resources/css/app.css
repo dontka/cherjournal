@@ -3,33 +3,39 @@
 @tailwind utilities;
 
 :root {
-    --cj-rose: #f6d7d0;
-    --cj-peach: #fdf0ea;
-    --cj-sage: #dfeadf;
-    --cj-mauve: #efe9ff;
-    --cj-ink: #2f2a36;
-    --cj-soft: #6e6678;
-    --cj-terracotta: #d68577;
-    --cj-olive: #7c9a8a;
+    --cj-ivory: #f8f4ef;
+    --cj-ivory-strong: #f0e9e1;
+    --cj-rose: #ead4cf;
+    --cj-rose-strong: #d7aaa0;
+    --cj-ink: #2d2826;
+    --cj-muted: #6f625d;
+    --cj-line: #e7ded8;
+    --cj-card: rgba(255, 255, 255, 0.7);
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 body {
-    background:
-        radial-gradient(circle at top, rgba(246, 215, 208, 0.5), transparent 28%),
-        linear-gradient(180deg, #fffaf7 0%, #f8f5f2 35%, #f1f5f3 100%);
+    background: linear-gradient(180deg, #f9f5f2 0%, #f2eee9 100%);
     color: var(--cj-ink);
 }
 
 @layer components {
     .cj-shell {
-        @apply rounded-3xl border border-white/60 bg-white/70 shadow-[0_20px_60px_rgba(89,72,67,0.10)] backdrop-blur-sm;
+        @apply rounded-[1.5rem] border border-stone-200/80 bg-white/75 backdrop-blur-sm;
     }
 
     .cj-pill {
-        @apply inline-flex items-center rounded-full border border-rose-200 bg-rose-50 px-3 py-1 text-xs font-medium uppercase tracking-[0.16em] text-rose-700;
+        @apply inline-flex items-center rounded-full border border-stone-200 bg-stone-100 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-stone-600;
     }
 
     .cj-card {
-        @apply rounded-3xl border border-stone-200/80 bg-white/80 p-6 shadow-sm;
+        @apply rounded-[1.5rem] border border-stone-200/80 bg-white/80 p-5;
+    }
+
+    .cj-input {
+        @apply mt-1 block w-full rounded-xl border border-stone-200 bg-white px-3 py-2.5 text-sm text-stone-800 shadow-sm transition focus:border-stone-400 focus:outline-none focus:ring-2 focus:ring-stone-200;
     }
 }
