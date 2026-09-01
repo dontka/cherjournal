@@ -1,6 +1,6 @@
 <x-app-layout>
     <div class="py-8">
-        <div class="mx-auto max-w-6xl space-y-6 px-3 sm:px-4 lg:px-5">
+        <div class="mx-auto max-w-[1380px] space-y-6 px-2 sm:px-3 lg:px-4">
             <div class="cj-shell px-6 py-5 sm:px-8">
                 <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
                     <div>

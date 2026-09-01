@@ -12,26 +12,39 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="antialiased font-sans text-stone-800">
-        <div class="min-h-screen px-4 py-6 sm:px-6 lg:px-8">
-            <div class="mx-auto max-w-7xl">
-                <header class="cj-shell">
-                    <div class="flex items-center justify-between px-6 py-5 sm:px-8">
+        <div class="min-h-screen bg-[radial-gradient(circle_at_top,_rgba(246,215,208,0.35),_transparent_25%),linear-gradient(180deg,_#fffaf7_0%,_#f7f3f0_30%,_#f1f5f3_100%)]">
+            <div class="mx-auto max-w-[1380px] px-3 sm:px-4 lg:px-5">
+                <header class="sticky top-0 z-40 mt-3 rounded-full border border-white/80 bg-white/80 px-4 py-3 shadow-[0_12px_32px_rgba(90,73,66,0.06)] backdrop-blur-sm sm:px-6">
+                    <div class="flex items-center justify-between gap-3">
                         <div class="flex items-center gap-3">
-                            <div class="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-rose-200 via-orange-100 to-emerald-100 text-lg font-bold text-stone-700 shadow-inner">C</div>
-                            <div>
-                                <p class="text-xs font-semibold uppercase tracking-[0.25em] text-stone-500">Cher Journal</p>
-                                <h1 class="text-lg font-semibold text-stone-800">Journal intime &amp; bienveillance</h1>
+                            <div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-rose-200 via-orange-100 to-emerald-100 text-base font-bold text-stone-700 shadow-inner">C</div>
+                            <div class="leading-tight">
+                                <p class="text-[10px] font-semibold uppercase tracking-[0.24em] text-stone-500">Cher Journal</p>
+                                <h1 class="text-sm font-semibold text-stone-800">Journal intime &amp; bienveillance</h1>
                             </div>
                         </div>
 
+                        <nav class="hidden items-center gap-2 md:flex">
+                            <a href="#mission" class="rounded-full px-3 py-2 text-sm font-medium text-stone-600 transition hover:bg-stone-100 hover:text-stone-900">Mission</a>
+                            <a href="#avantages" class="rounded-full px-3 py-2 text-sm font-medium text-stone-600 transition hover:bg-stone-100 hover:text-stone-900">Avantages</a>
+                            @if (Route::has('login'))
+                                <a href="{{ route('login') }}" class="rounded-full border border-stone-200 bg-white px-4 py-2 text-sm font-medium text-stone-700 transition hover:border-stone-300 hover:bg-stone-50">Connexion</a>
+                            @endif
+                            @if (Route::has('register'))
+                                <a href="{{ route('register') }}" class="rounded-full bg-stone-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-stone-700">Créer mon journal</a>
+                            @endif
+                        </nav>
+
                         @if (Route::has('login'))
-                            <livewire:welcome.navigation />
+                            <div class="md:hidden">
+                                <livewire:welcome.navigation />
+                            </div>
                         @endif
                     </div>
                 </header>
 
-                <main class="mt-8 space-y-8">
-                    <section class="cj-shell overflow-hidden">
+                <main class="mt-8 space-y-8 pb-8">
+                    <section id="mission" class="cj-shell overflow-hidden">
                         <div class="grid gap-8 px-6 py-8 sm:px-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-center lg:px-12 lg:py-12">
                             <div>
                                 <span class="cj-pill">Espace de paix • sécurité • anonymat</span>
@@ -96,7 +109,7 @@
                         </div>
                     </section>
 
-                    <section class="grid gap-6 md:grid-cols-3">
+                    <section id="avantages" class="grid gap-6 md:grid-cols-3">
                         <article class="cj-card">
                             <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-rose-100 text-2xl">✍️</div>
                             <h3 class="text-xl font-semibold text-stone-900">Journal personnel</h3>
@@ -150,6 +163,23 @@
                         </div>
                     </section>
                 </main>
+
+                <footer class="mt-8 border-t border-stone-200/80 pb-8 pt-6">
+                    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                        <div>
+                            <p class="text-sm font-semibold text-stone-800">Cher Journal</p>
+                            <p class="text-sm text-stone-500">Écrire pour se comprendre, respirer et avancer.</p>
+                        </div>
+                        <div class="flex flex-wrap items-center gap-3 text-sm text-stone-600">
+                            @if (Route::has('login'))
+                                <a href="{{ route('login') }}" class="transition hover:text-stone-900">Connexion</a>
+                            @endif
+                            @if (Route::has('register'))
+                                <a href="{{ route('register') }}" class="transition hover:text-stone-900">Inscription</a>
+                            @endif
+                        </div>
+                    </div>
+                </footer>
             </div>
         </div>
     </body>

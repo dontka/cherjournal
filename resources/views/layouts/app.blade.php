@@ -20,7 +20,7 @@
 
             <main class="pb-8">
                 @if (isset($header))
-                    <div class="mx-auto max-w-6xl px-3 pt-6 sm:px-4 lg:px-5">
+                    <div class="mx-auto max-w-[1380px] px-2 pt-6 sm:px-3 lg:px-4">
                         <div class="rounded-[1.75rem] border border-white/70 bg-white/80 px-5 py-4 shadow-[0_16px_40px_rgba(89,72,67,0.08)] backdrop-blur-sm sm:px-6">
                             {{ $header }}
                         </div>

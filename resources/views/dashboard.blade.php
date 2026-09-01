@@ -1,6 +1,6 @@
 <x-app-layout>
     <div class="py-8">
-        <div class="mx-auto max-w-6xl space-y-6 px-3 sm:px-4 lg:px-5">
+        <div class="mx-auto max-w-[1380px] space-y-6 px-2 sm:px-3 lg:px-4">
             <div class="grid gap-4 md:grid-cols-3">
                 <div class="rounded-3xl border border-rose-100 bg-gradient-to-br from-rose-50 to-white p-5 shadow-sm">
                     <p class="text-sm text-stone-500">Entrées ce mois</p>
