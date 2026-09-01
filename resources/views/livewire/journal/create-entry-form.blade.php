@@ -83,7 +83,51 @@ new class extends Component
 };
 ?>
 
-<section class="space-y-5">
+<section class="space-y-5" x-data="{
+    preview: false,
+    editorContent: '',
+    setEditorContent(value) {
+        this.editorContent = value ?? '';
+    },
+    insertMarkdown(type) {
+        const textarea = document.getElementById('journal-content');
+        if (!textarea) return;
+
+        const start = textarea.selectionStart;
+        const end = textarea.selectionEnd;
+        const selected = textarea.value.substring(start, end) || 'texte';
+
+        let content = selected;
+        let prefix = '';
+        let suffix = '';
+
+        switch (type) {
+            case 'bold':
+                prefix = '**'; suffix = '**'; break;
+            case 'italic':
+                prefix = '*'; suffix = '*'; break;
+            case 'heading':
+                prefix = '## '; suffix = ''; break;
+            case 'list':
+                prefix = '- '; suffix = ''; break;
+            case 'quote':
+                prefix = '> '; suffix = ''; break;
+            default:
+                prefix = ''; suffix = '';
+        }
+
+        const value = textarea.value.substring(0, start) + prefix + content + suffix + textarea.value.substring(end);
+        textarea.value = value;
+        this.editorContent = value;
+        textarea.dispatchEvent(new Event('input', { bubbles: true }));
+        textarea.focus();
+
+        const cursorStart = start + prefix.length;
+        const cursorEnd = cursorStart + content.length;
+        textarea.setSelectionRange(cursorStart, cursorEnd);
+    }
+}" x-init="editorContent = document.getElementById('journal-content')?.value || ''" x-on:input="if ($event.target.id === 'journal-content') editorContent = $event.target.value">
+
     <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <div>
             <p class="text-[10px] font-semibold uppercase tracking-[0.22em] text-stone-500">Mon journal</p>
@@ -105,9 +149,28 @@ new class extends Component
         </div>
 
         <div>
-            <label for="journal-content" class="mb-1 block text-sm font-medium text-stone-700">Écriture</label>
-            <textarea wire:model="content" id="journal-content" rows="8" class="w-full rounded-2xl border border-stone-200 bg-white px-3 py-2.5 text-sm text-stone-900 focus:border-rose-400 focus:outline-none focus:ring-2 focus:ring-rose-100" placeholder="Décris ce que tu ressens, ce que tu traverses, ou ce que tu veux retenir..."></textarea>
+            <div class="mb-2 flex flex-wrap items-center justify-between gap-2">
+                <label for="journal-content" class="block text-sm font-medium text-stone-700">Écriture</label>
+                <div class="flex flex-wrap items-center gap-2">
+                    <button type="button" @click="insertMarkdown('bold')" class="rounded-full border border-stone-200 bg-stone-50 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-stone-700">Gras</button>
+                    <button type="button" @click="insertMarkdown('italic')" class="rounded-full border border-stone-200 bg-stone-50 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-stone-700">Italique</button>
+                    <button type="button" @click="insertMarkdown('heading')" class="rounded-full border border-stone-200 bg-stone-50 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-stone-700">Titre</button>
+                    <button type="button" @click="insertMarkdown('list')" class="rounded-full border border-stone-200 bg-stone-50 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-stone-700">Liste</button>
+                    <button type="button" @click="insertMarkdown('quote')" class="rounded-full border border-stone-200 bg-stone-50 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-stone-700">Citation</button>
+                    <button type="button" @click="preview = !preview" class="rounded-full border border-rose-200 bg-rose-50 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-rose-700">
+                        <span x-text="preview ? 'Masquer' : 'Aperçu'"></span>
+                    </button>
+                </div>
+            </div>
+
+            <textarea wire:model="content" x-model="editorContent" id="journal-content" rows="8" class="w-full rounded-2xl border border-stone-200 bg-white px-3 py-2.5 text-sm text-stone-900 focus:border-rose-400 focus:outline-none focus:ring-2 focus:ring-rose-100" placeholder="Décris ce que tu ressens, ce que tu traverses, ou ce que tu veux retenir..."></textarea>
+            <p class="mt-2 text-[10px] uppercase tracking-[0.18em] text-stone-500">Markdown simple : **gras**, *italique*, # titre, - liste, > citation</p>
             @error('content') <span class="mt-1 block text-xs text-red-600">{{ $message }}</span> @enderror
+
+            <div x-show="preview" x-transition class="mt-3 rounded-2xl border border-stone-200 bg-stone-50 p-3 text-sm leading-7 text-stone-700">
+                <p class="mb-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-stone-500">Aperçu</p>
+                <div class="whitespace-pre-wrap" x-text="editorContent || 'Aucun contenu pour l’aperçu.'"></div>
+            </div>
         </div>
 
         <div class="grid gap-3 sm:grid-cols-3">
