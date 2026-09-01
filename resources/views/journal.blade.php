@@ -31,22 +31,7 @@
                 </div>
 
                 <div class="cj-shell p-5 lg:col-span-4">
-                    <p class="text-[10px] font-semibold uppercase tracking-[0.22em] text-stone-500">Mes dernières notes</p>
-                    <div class="mt-4 space-y-3">
-                        @forelse(auth()->user()->journalEntries()->latest()->limit(3)->get() as $entry)
-                            <div class="rounded-[1rem] border border-stone-200 bg-stone-50 p-3">
-                                <div class="flex items-center justify-between gap-3">
-                                    <p class="text-sm font-semibold text-stone-800">{{ $entry->title ?: 'Sans titre' }}</p>
-                                    <span class="rounded-full bg-white px-2 py-1 text-[10px] uppercase tracking-[0.12em] text-stone-500">{{ $entry->status }}</span>
-                                </div>
-                                <p class="mt-2 line-clamp-3 text-sm leading-6 text-stone-600">{{ Str::limit($entry->content, 120) }}</p>
-                            </div>
-                        @empty
-                            <div class="rounded-[1rem] border border-dashed border-stone-300 bg-stone-50 p-4 text-sm text-stone-600">
-                                Tes premières notes apparaîtront ici.
-                            </div>
-                        @endforelse
-                    </div>
+                    <livewire:journal.entries-list />
                 </div>
             </div>
         </div>

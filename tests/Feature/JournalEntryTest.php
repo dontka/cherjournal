@@ -103,4 +103,48 @@ class JournalEntryTest extends TestCase
 
         $this->assertDatabaseMissing('journal_entries', ['id' => $entry->id]);
     }
+
+    public function test_dashboard_displays_user_journal_summary_and_actions(): void
+    {
+        $user = User::factory()->create();
+
+        JournalEntry::create([
+            'user_id' => $user->id,
+            'title' => 'Première note',
+            'slug' => 'premiere-note',
+            'content' => 'Je veux reprendre le rythme avec une écriture plus douce et régulière.',
+            'status' => 'published',
+            'visibility' => 'private',
+            'is_anonymous' => false,
+        ]);
+
+        JournalEntry::create([
+            'user_id' => $user->id,
+            'title' => 'Brouillon',
+            'slug' => 'brouillon',
+            'content' => 'Je garde cette pensée en attente avant de la partager.',
+            'status' => 'draft',
+            'visibility' => 'private',
+            'is_anonymous' => true,
+        ]);
+
+        JournalEntry::create([
+            'user_id' => $user->id,
+            'title' => 'Archivée',
+            'slug' => 'archivee',
+            'content' => 'Cette entrée a trouvé sa place dans l’archive.',
+            'status' => 'archived',
+            'visibility' => 'private',
+            'is_anonymous' => false,
+        ]);
+
+        $this->actingAs($user)
+            ->get('/dashboard')
+            ->assertOk()
+            ->assertSee('Mon tableau de bord')
+            ->assertSee('Brouillons')
+            ->assertSee('Publiees')
+            ->assertSee('Archives')
+            ->assertSee('Nouvelle entrée');
+    }
 }
