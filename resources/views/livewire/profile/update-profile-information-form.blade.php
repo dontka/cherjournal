@@ -124,14 +124,28 @@ new class extends Component
 
 <section>
     <header>
-        <h2 class="text-lg font-medium text-gray-900">
-            {{ __('Profile Information') }}
+        <h2 class="text-lg font-semibold text-stone-900">
+            {{ __('Informations du profil') }}
         </h2>
 
-        <p class="mt-1 text-sm text-gray-600">
-            {{ __("Update your account's profile information and email address.") }}
+        <p class="mt-1 text-sm text-stone-600">
+            {{ __('Personnalise ton identité, ton anonymat et la manière dont tu souhaites être visible.') }}
         </p>
     </header>
+
+    <div class="mt-6 rounded-3xl border border-rose-100 bg-gradient-to-br from-rose-50 via-white to-emerald-50 p-4">
+        <div class="flex items-center gap-4">
+            <img
+                src="{{ $avatar_url ?: 'https://ui-avatars.com/api/?name=' . urlencode($username ?: $name ?: 'CJ') . '&background=F6D7D0&color=fff&size=200' }}"
+                alt="Avatar"
+                class="h-16 w-16 rounded-full border-2 border-white object-cover shadow-sm"
+            />
+            <div>
+                <p class="text-xs font-semibold uppercase tracking-[0.2em] text-stone-500">Avatar</p>
+                <p class="mt-1 text-sm text-stone-700">{{ $display_name ?: ($username ?: $name ?: 'Mon profil') }}</p>
+            </div>
+        </div>
+    </div>
 
     <form wire:submit="updateProfileInformation" class="mt-6 space-y-6">
         <div>
