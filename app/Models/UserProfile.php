@@ -11,7 +11,14 @@ class UserProfile extends Model
         'user_id',
         'display_name',
         'username',
+        'gender',
         'avatar_url',
+        'avatar_key',
+        'avatar_id',
+        'theme',
+        'menu',
+        'points',
+        'onboarding_completed',
         'bio',
         'timezone',
         'is_public',
@@ -25,6 +32,9 @@ class UserProfile extends Model
     protected $casts = [
         'is_public' => 'boolean',
         'is_anonymous' => 'boolean',
+        'menu' => 'array',
+        'points' => 'integer',
+        'onboarding_completed' => 'boolean',
         'email_notifications' => 'boolean',
         'in_app_notifications' => 'boolean',
         'comments_enabled' => 'boolean',
@@ -34,5 +44,10 @@ class UserProfile extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function avatar(): BelongsTo
+    {
+        return $this->belongsTo(Avatar::class);
     }
 }

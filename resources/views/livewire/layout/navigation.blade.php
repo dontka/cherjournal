@@ -16,6 +16,10 @@ new class extends Component
     }
 }; ?>
 
+@php
+    $menu = auth()->user()->profile?->menu ?: ['journal', 'dashboard', 'profile'];
+@endphp
+
 <nav x-data="{ open: false }" class="sticky top-0 z-50 border-b border-stone-200/80 bg-white/80 backdrop-blur-sm shadow-[0_10px_30px_rgba(70,58,52,0.04)]">
     <div class="mx-auto max-w-[1400px] px-3 sm:px-4 lg:px-5">
         <div class="flex h-20 items-center justify-between gap-3">
@@ -29,15 +33,21 @@ new class extends Component
                 </a>
 
                 <div class="hidden items-center gap-2 md:flex">
-                    <a href="{{ route('dashboard') }}" wire:navigate class="rounded-full px-3.5 py-2 text-sm font-medium text-stone-600 transition hover:bg-stone-100 hover:text-stone-900 {{ request()->routeIs('dashboard') ? 'bg-stone-900 text-white' : '' }}">
-                        {{ __('Dashboard') }}
-                    </a>
-                    <a href="{{ route('journal') }}" wire:navigate class="rounded-full px-3.5 py-2 text-sm font-medium text-stone-600 transition hover:bg-stone-100 hover:text-stone-900 {{ request()->routeIs('journal') ? 'bg-stone-900 text-white' : '' }}">
-                        {{ __('Mon journal') }}
-                    </a>
-                    <a href="{{ route('profile') }}" wire:navigate class="rounded-full px-3.5 py-2 text-sm font-medium text-stone-600 transition hover:bg-stone-100 hover:text-stone-900 {{ request()->routeIs('profile') ? 'bg-stone-900 text-white' : '' }}">
-                        {{ __('Mon profil') }}
-                    </a>
+                    @if (in_array('dashboard', $menu, true))
+                        <a href="{{ route('dashboard') }}" wire:navigate class="rounded-full px-3.5 py-2 text-sm font-medium text-stone-600 transition hover:bg-stone-100 hover:text-stone-900 {{ request()->routeIs('dashboard') ? 'bg-stone-900 text-white' : '' }}">
+                            {{ __('Dashboard') }}
+                        </a>
+                    @endif
+                    @if (in_array('journal', $menu, true))
+                        <a href="{{ route('journal') }}" wire:navigate class="rounded-full px-3.5 py-2 text-sm font-medium text-stone-600 transition hover:bg-stone-100 hover:text-stone-900 {{ request()->routeIs('journal') ? 'bg-stone-900 text-white' : '' }}">
+                            {{ __('Mon journal') }}
+                        </a>
+                    @endif
+                    @if (in_array('profile', $menu, true))
+                        <a href="{{ route('profile') }}" wire:navigate class="rounded-full px-3.5 py-2 text-sm font-medium text-stone-600 transition hover:bg-stone-100 hover:text-stone-900 {{ request()->routeIs('profile') ? 'bg-stone-900 text-white' : '' }}">
+                            {{ __('Mon profil') }}
+                        </a>
+                    @endif
                 </div>
             </div>
 
@@ -87,15 +97,21 @@ new class extends Component
 
     <div :class="{'block': open, 'hidden': ! open}" class="hidden border-t border-stone-200 bg-white sm:hidden">
         <div class="space-y-1 px-3 py-3">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
-                {{ __('Dashboard') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('journal')" :active="request()->routeIs('journal')" wire:navigate>
-                {{ __('Mon journal') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('profile')" :active="request()->routeIs('profile')" wire:navigate>
-                {{ __('Mon profil') }}
-            </x-responsive-nav-link>
+            @if (in_array('dashboard', $menu, true))
+                <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
+                    {{ __('Dashboard') }}
+                </x-responsive-nav-link>
+            @endif
+            @if (in_array('journal', $menu, true))
+                <x-responsive-nav-link :href="route('journal')" :active="request()->routeIs('journal')" wire:navigate>
+                    {{ __('Mon journal') }}
+                </x-responsive-nav-link>
+            @endif
+            @if (in_array('profile', $menu, true))
+                <x-responsive-nav-link :href="route('profile')" :active="request()->routeIs('profile')" wire:navigate>
+                    {{ __('Mon profil') }}
+                </x-responsive-nav-link>
+            @endif
             <button wire:click="logout" class="w-full text-start">
                 <x-responsive-nav-link>
                     {{ __('Se déconnecter') }}
