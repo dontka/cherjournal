@@ -338,6 +338,13 @@ Créer la structure de base :
 - publications les plus vues ;
 - catégories les plus suivies.
 
+### 3.4 Personnalisation de l’espace personnelle de l’utilisateur
+
+-	Apres l’inscription, l’utilisateur tombe sur un Wizard (sous forme d’assistant de personnalisation) lui permettant de personnaliser son espace selon son choix (la couleur, les menus, la visibilité, son avatar, bref comme si on est en train de ranger sa chambre).
+-	Le système des avatars doit fonctionner tel que, après inscription de l’utilisateur, une liste des avatars prédéfinis s’affiche en suivant le genre (sexe) de l’utilisateur, puis l’utilisateur fait son choix d’avatar.
+-	Au fur et à mesure que l’utilisateur utilise le site, il accumule les points, et du coup à partir de ces points, il poura débloquer d’autres fonctionnalités (par exemple, personnaliser son propre avatar etc.). C’est le premier système de fidélité.
+- Les avatars sont dans le dossier /starage/app/bublic/avatars/
+
 ## Livrables
 
 - espace “Mon Journal” complet ;
@@ -359,6 +366,7 @@ Créer la structure de base :
 ## Objectif
 
 Créer les contenus publics et les interactions communautaires de base avec expérience SPA.
+
 
 ## Tâches détaillées
 

@@ -30,6 +30,9 @@ new class extends Component
 
                 <div class="hidden items-center gap-2 md:flex">
                     <a href="{{ route('dashboard') }}" wire:navigate class="rounded-full px-3.5 py-2 text-sm font-medium text-stone-600 transition hover:bg-stone-100 hover:text-stone-900 {{ request()->routeIs('dashboard') ? 'bg-stone-900 text-white' : '' }}">
+                        {{ __('Dashboard') }}
+                    </a>
+                    <a href="{{ route('journal') }}" wire:navigate class="rounded-full px-3.5 py-2 text-sm font-medium text-stone-600 transition hover:bg-stone-100 hover:text-stone-900 {{ request()->routeIs('journal') ? 'bg-stone-900 text-white' : '' }}">
                         {{ __('Mon journal') }}
                     </a>
                     <a href="{{ route('profile') }}" wire:navigate class="rounded-full px-3.5 py-2 text-sm font-medium text-stone-600 transition hover:bg-stone-100 hover:text-stone-900 {{ request()->routeIs('profile') ? 'bg-stone-900 text-white' : '' }}">
@@ -85,6 +88,9 @@ new class extends Component
     <div :class="{'block': open, 'hidden': ! open}" class="hidden border-t border-stone-200 bg-white sm:hidden">
         <div class="space-y-1 px-3 py-3">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
+                {{ __('Dashboard') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('journal')" :active="request()->routeIs('journal')" wire:navigate>
                 {{ __('Mon journal') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('profile')" :active="request()->routeIs('profile')" wire:navigate>

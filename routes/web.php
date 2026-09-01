@@ -12,4 +12,8 @@ Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
 
+Route::view('journal', 'journal')
+    ->middleware(['auth', 'verified'])
+    ->name('journal');
+
 require __DIR__.'/auth.php';

@@ -39,7 +39,8 @@ class JournalEntryTest extends TestCase
 
         $component
             ->assertHasNoErrors()
-            ->assertNoRedirect();
+            ->assertNoRedirect()
+            ->assertSee('Brouillon enregistré.');
 
         $this->assertDatabaseHas('journal_entries', [
             'user_id' => $user->id,
@@ -48,8 +49,6 @@ class JournalEntryTest extends TestCase
             'visibility' => 'private',
             'is_anonymous' => true,
         ]);
-
-        $this->assertSame('Brouillon enregistré.', session('journal_status'));
     }
 
     public function test_user_can_create_a_published_entry(): void
@@ -75,5 +74,33 @@ class JournalEntryTest extends TestCase
         $this->assertNotNull($entry);
         $this->assertSame('published', $entry->status);
         $this->assertSame('public', $entry->visibility);
+    }
+
+    public function test_user_can_archive_and_delete_an_entry(): void
+    {
+        $user = User::factory()->create();
+        $entry = JournalEntry::create([
+            'user_id' => $user->id,
+            'title' => 'Journal de transition',
+            'slug' => 'journal-de-transition',
+            'content' => 'Je m’efforce de reprendre le rythme de mon journal sans me juger.',
+            'status' => 'draft',
+            'visibility' => 'private',
+            'is_anonymous' => false,
+        ]);
+
+        $this->actingAs($user);
+
+        Volt::test('journal.entries-list')
+            ->call('archiveEntry', $entry->id)
+            ->assertHasNoErrors();
+
+        $this->assertSame('archived', $entry->fresh()->status);
+
+        Volt::test('journal.entries-list')
+            ->call('deleteEntry', $entry->id)
+            ->assertHasNoErrors();
+
+        $this->assertDatabaseMissing('journal_entries', ['id' => $entry->id]);
     }
 }
