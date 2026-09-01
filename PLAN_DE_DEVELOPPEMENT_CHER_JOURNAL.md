@@ -363,6 +363,7 @@ Créer les contenus publics et les interactions communautaires de base avec exp�
 
 ### 4.1 Publication texte
 
+- Le champ de publication et des commentaires doit-etre un markdown simple comme un bloc note:
 - création d’une publication texte ;
 - champ titre facultatif ;
 - contenu principal ;
