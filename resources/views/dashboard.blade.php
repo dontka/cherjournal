@@ -1,40 +1,42 @@
 <x-app-layout>
     <div class="py-8">
         <div class="mx-auto max-w-[1380px] space-y-5 px-2 sm:px-3 lg:px-4">
-            <div class="grid gap-4 lg:grid-cols-12">
-                @php
-                    $entries = auth()->user()->journalEntries();
-                    $total = $entries->count();
-                    $drafts = $entries->where('status', 'draft')->count();
-                    $published = $entries->where('status', 'published')->count();
-                    $archived = $entries->where('status', 'archived')->count();
-                    $latestEntry = auth()->user()->journalEntries()->latest()->first();
-                @endphp
+            @php
+                $entries = auth()->user()->journalEntries();
+                $total = $entries->count();
+                $drafts = $entries->where('status', 'draft')->count();
+                $published = $entries->where('status', 'published')->count();
+                $archived = $entries->where('status', 'archived')->count();
+                $latestEntry = auth()->user()->journalEntries()->latest()->first();
+            @endphp
 
-                <div class="cj-bento group bg-[linear-gradient(135deg,_#fff8f6_0%,_#fbe8e2_100%)] lg:col-span-3">
-                    <p class="text-[10px] font-semibold uppercase tracking-[0.22em] text-stone-500">Total</p>
-                    <p class="mt-4 text-4xl font-black text-stone-900">{{ $total }}</p>
-                    <p class="mt-2 text-[10px] uppercase tracking-[0.18em] text-stone-500">entrées</p>
+            <div class="grid grid-cols-4 gap-2 sm:gap-3 lg:gap-4">
+                <div class="cj-bento group min-w-0 overflow-hidden bg-[linear-gradient(135deg,_#fff8f6_0%,_#fbe8e2_100%)]">
+                    <p class="whitespace-nowrap text-[7px] font-semibold uppercase tracking-[0.18em] text-stone-500 sm:text-[8px] lg:text-[10px]">Total</p>
+                    <p class="mt-1 text-xl font-black leading-none text-stone-900 sm:text-2xl lg:mt-2 lg:text-4xl">{{ $total }}</p>
+                    <p class="mt-1 whitespace-nowrap text-[7px] uppercase tracking-[0.14em] text-stone-500 sm:text-[8px] lg:text-[10px]">entrées</p>
                 </div>
 
-                <div class="cj-bento group bg-[linear-gradient(135deg,_#f2faf3_0%,_#dff3e7_100%)] lg:col-span-3">
-                    <p class="text-[10px] font-semibold uppercase tracking-[0.22em] text-stone-500">Publiees</p>
-                    <p class="mt-4 text-4xl font-black text-stone-900">{{ $published }}</p>
-                    <p class="mt-2 text-[10px] uppercase tracking-[0.18em] text-stone-500">dans le flux</p>
+                <div class="cj-bento group min-w-0 overflow-hidden bg-[linear-gradient(135deg,_#f2faf3_0%,_#dff3e7_100%)]">
+                    <p class="whitespace-nowrap text-[7px] font-semibold uppercase tracking-[0.18em] text-stone-500 sm:text-[8px] lg:text-[10px]">Publiees</p>
+                    <p class="mt-1 text-xl font-black leading-none text-stone-900 sm:text-2xl lg:mt-2 lg:text-4xl">{{ $published }}</p>
+                    <p class="mt-1 whitespace-nowrap text-[7px] uppercase tracking-[0.14em] text-stone-500 sm:text-[8px] lg:text-[10px]">flux</p>
                 </div>
 
-                <div class="cj-bento group bg-[linear-gradient(135deg,_#f8f5ff_0%,_#e9e0ff_100%)] lg:col-span-3">
-                    <p class="text-[10px] font-semibold uppercase tracking-[0.22em] text-stone-500">Brouillons</p>
-                    <p class="mt-4 text-4xl font-black text-stone-900">{{ $drafts }}</p>
-                    <p class="mt-2 text-[10px] uppercase tracking-[0.18em] text-stone-500">en attente</p>
+                <div class="cj-bento group min-w-0 overflow-hidden bg-[linear-gradient(135deg,_#f8f5ff_0%,_#e9e0ff_100%)]">
+                    <p class="whitespace-nowrap text-[7px] font-semibold uppercase tracking-[0.18em] text-stone-500 sm:text-[8px] lg:text-[10px]">Brouillons</p>
+                    <p class="mt-1 text-xl font-black leading-none text-stone-900 sm:text-2xl lg:mt-2 lg:text-4xl">{{ $drafts }}</p>
+                    <p class="mt-1 whitespace-nowrap text-[7px] uppercase tracking-[0.14em] text-stone-500 sm:text-[8px] lg:text-[10px]">attente</p>
                 </div>
 
-                <div class="cj-bento group bg-[linear-gradient(135deg,_#fbf5ef_0%,_#f1e0cf_100%)] lg:col-span-3">
-                    <p class="text-[10px] font-semibold uppercase tracking-[0.22em] text-stone-500">Archives</p>
-                    <p class="mt-4 text-4xl font-black text-stone-900">{{ $archived }}</p>
-                    <p class="mt-2 text-[10px] uppercase tracking-[0.18em] text-stone-500">sauvegardées</p>
+                <div class="cj-bento group min-w-0 overflow-hidden bg-[linear-gradient(135deg,_#fbf5ef_0%,_#f1e0cf_100%)]">
+                    <p class="whitespace-nowrap text-[7px] font-semibold uppercase tracking-[0.18em] text-stone-500 sm:text-[8px] lg:text-[10px]">Archives</p>
+                    <p class="mt-1 text-xl font-black leading-none text-stone-900 sm:text-2xl lg:mt-2 lg:text-4xl">{{ $archived }}</p>
+                    <p class="mt-1 whitespace-nowrap text-[7px] uppercase tracking-[0.14em] text-stone-500 sm:text-[8px] lg:text-[10px]">sauvegardées</p>
                 </div>
+            </div>
 
+            <div class="grid gap-5 lg:grid-cols-12">
                 <div class="cj-shell p-5 lg:col-span-7">
                     <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                         <div>
