@@ -143,6 +143,30 @@ class JournalEntryTest extends TestCase
         $this->assertDatabaseMissing('journal_entries', ['id' => $entry->id]);
     }
 
+    public function test_journal_entry_can_be_loaded_for_editing(): void
+    {
+        $user = User::factory()->create();
+        $entry = JournalEntry::create([
+            'user_id' => $user->id,
+            'title' => 'Entrée à éditer',
+            'slug' => 'entree-a-editer',
+            'content' => 'Texte de l’entrée avant modification.',
+            'status' => 'draft',
+            'visibility' => 'private',
+            'is_anonymous' => false,
+        ]);
+
+        $this->actingAs($user);
+
+        $component = Volt::test('journal.create-entry-form')
+            ->call('loadEntry', $entry->id);
+
+        $component
+            ->assertSet('entryId', $entry->id)
+            ->assertSet('title', 'Entrée à éditer')
+            ->assertSet('content', 'Texte de l’entrée avant modification.');
+    }
+
     public function test_journal_history_preview_strips_html_tags(): void
     {
         $user = User::factory()->create();

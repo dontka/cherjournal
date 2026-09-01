@@ -8,21 +8,36 @@ import TextAlign from '@tiptap/extension-text-align';
 
 window.journalNoteEditor = function () {
     return {
-        editor: null,
+        syncFrame: null,
+        syncVersion: 0,
         syncEditorContent(content) {
-            if (!this.editor || this.editor.isDestroyed) {
-                return;
+            const html = content || this.$refs.contentInput?.value || '<p>Commencez ici…</p>';
+            const version = ++this.syncVersion;
+
+            if (this.syncFrame) {
+                cancelAnimationFrame(this.syncFrame);
             }
 
-            const html = content || '<p>Commencez ici…</p>';
+            this.syncFrame = requestAnimationFrame(() => {
+                this.syncFrame = null;
+                const editor = this.$refs.editor?.__journalEditor;
 
-            this.editor.commands.setContent(html, {
-                emitUpdate: false,
+                if (version !== this.syncVersion || !editor || editor.isDestroyed) {
+                    return;
+                }
+
+                if (html === editor.getHTML()) {
+                    return;
+                }
+
+                editor.commands.setContent(html, {
+                    emitUpdate: false,
+                });
+
+                if (this.$refs.contentInput) {
+                    this.$refs.contentInput.value = html;
+                }
             });
-
-            if (this.$refs.contentInput) {
-                this.$refs.contentInput.value = html;
-            }
         },
         init() {
             if (this.$el.dataset.journalEditorInitialized === 'true') {
@@ -47,7 +62,7 @@ window.journalNoteEditor = function () {
                 }
 
                 const runEditorCommand = (callback) => {
-                    const editor = window.__journalEditorInstance || this.editor;
+                    const editor = element.__journalEditor;
 
                     if (!editor || editor.isDestroyed) {
                         return;
@@ -171,10 +186,7 @@ window.journalNoteEditor = function () {
                 });
 
                 element.__journalEditor = editor;
-                this.editor = editor;
-                window.__journalEditorInstance = editor;
                 input.value = editor.getHTML();
-                this.syncEditorContent(input.value || '<p>Commencez ici…</p>');
 
                 if (blockMenuButton) {
                     blockMenuButton.addEventListener('click', (event) => {
@@ -217,15 +229,12 @@ window.journalNoteEditor = function () {
             });
         },
         destroy() {
-            if (this.editor) {
-                this.editor.destroy();
-                this.editor = null;
+            if (this.syncFrame) {
+                cancelAnimationFrame(this.syncFrame);
+                this.syncFrame = null;
             }
 
-            if (window.__journalEditorInstance) {
-                window.__journalEditorInstance.destroy();
-                window.__journalEditorInstance = null;
-            }
+            this.syncVersion++;
 
             if (this.$refs.editor && this.$refs.editor.__journalEditor) {
                 this.$refs.editor.__journalEditor.destroy();

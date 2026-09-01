@@ -9,7 +9,7 @@ new class extends Component
 {
     public string $filter = 'all';
     public int $page = 1;
-    public int $perPage = 5;
+    public int $perPage = 4;
     public $entries = [];
 
     public function mount(): void
@@ -27,7 +27,7 @@ new class extends Component
 
     public function editEntry(int $entryId): void
     {
-        $this->dispatch('edit-journal-entry', entryId: $entryId);
+        $this->dispatch('edit-journal-entry', entryId: $entryId)->to('journal.create-entry-form');
     }
 
     public function deleteEntry(int $entryId): void

@@ -3,6 +3,7 @@
 use App\Models\JournalEntry;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Livewire\Attributes\On;
 use Livewire\Volt\Component;
 
 new class extends Component
@@ -22,6 +23,7 @@ new class extends Component
         $this->is_anonymous = false;
     }
 
+    #[On('edit-journal-entry')]
     public function loadEntry(int $entryId): void
     {
         $entry = Auth::user()->journalEntries()->findOrFail($entryId);
@@ -85,7 +87,7 @@ new class extends Component
 };
 ?>
 
-<section x-data="journalNoteEditor()" x-init="init()" x-on:beforeunload="destroy()" x-on:journal-entry-loaded.window="syncEditorContent($event.detail.content)" class="space-y-5">
+<section x-data="journalNoteEditor()" x-init="init()" x-on:beforeunload="destroy()" x-on:journal-entry-loaded.window="syncEditorContent($event.detail.content || '')" class="space-y-5">
     <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <div>
             <p class="text-[10px] font-semibold uppercase tracking-[0.22em] text-stone-500">Mon journal</p>
