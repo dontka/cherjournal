@@ -52,6 +52,7 @@ window.journalNoteEditor = function () {
                 const toolbar = this.$refs.floatingToolbar;
                 const blockMenu = this.$refs.blockMenu;
                 const blockMenuButton = this.$refs.blockMenuButton;
+                const editorFrame = element.closest('.journal-block-editor-frame');
 
                 if (!element || !input) {
                     return;
@@ -214,17 +215,20 @@ window.journalNoteEditor = function () {
                 });
 
                 const updateToolbar = () => {
-                    if (!toolbar) {
+                    if (!toolbar || !blockMenuButton || !editorFrame) {
                         return;
                     }
 
-                    const hasFocus = element.contains(document.activeElement) || document.activeElement === element;
+                    const hasFocus = editorFrame.contains(document.activeElement);
                     toolbar.classList.toggle('opacity-0', !hasFocus);
                     toolbar.classList.toggle('pointer-events-none', !hasFocus);
+                    blockMenuButton.classList.toggle('opacity-0', !hasFocus);
+                    blockMenuButton.classList.toggle('pointer-events-none', !hasFocus);
                 };
 
                 element.addEventListener('focusin', updateToolbar);
-                element.addEventListener('focusout', () => setTimeout(updateToolbar, 50));
+                editorFrame.addEventListener('focusin', updateToolbar);
+                editorFrame.addEventListener('focusout', () => setTimeout(updateToolbar, 50));
                 updateToolbar();
             });
         },

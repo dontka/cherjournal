@@ -113,7 +113,7 @@ new class extends Component
 
             <div class="journal-block-editor-shell">
                 <div class="journal-block-editor-frame">
-                    <button x-ref="blockMenuButton" type="button" class="journal-plus-button" aria-label="Ajouter un bloc">＋</button>
+                    <button x-ref="blockMenuButton" type="button" class="journal-plus-button opacity-0 pointer-events-none" aria-label="Ajouter un bloc">＋</button>
 
                     <div x-ref="blockMenu" class="journal-block-menu hidden">
                         <button type="button" data-block-type="title">Titre</button>
@@ -126,7 +126,7 @@ new class extends Component
                         <button type="button" data-block-type="emoji">Emoji</button>
                     </div>
 
-                    <div x-ref="floatingToolbar" class="journal-floating-toolbar">
+                    <div x-ref="floatingToolbar" class="journal-floating-toolbar opacity-0 pointer-events-none">
                         <button type="button" data-editor-action="bold" class="journal-toolbar-btn">B</button>
                         <button type="button" data-editor-action="italic" class="journal-toolbar-btn">I</button>
                         <button type="button" data-editor-action="strike" class="journal-toolbar-btn">S</button>

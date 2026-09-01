@@ -107,6 +107,10 @@ body {
     box-shadow: 0 16px 32px rgba(41, 37, 36, 0.12);
 }
 
+.journal-block-menu.hidden {
+    display: none;
+}
+
 .journal-block-menu button {
     border: 1px solid rgba(214, 211, 209, 0.8);
     border-radius: 0.7rem;
