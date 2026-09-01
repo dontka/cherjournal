@@ -1,3 +1,35 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+    --cj-rose: #f6d7d0;
+    --cj-peach: #fdf0ea;
+    --cj-sage: #dfeadf;
+    --cj-mauve: #efe9ff;
+    --cj-ink: #2f2a36;
+    --cj-soft: #6e6678;
+    --cj-terracotta: #d68577;
+    --cj-olive: #7c9a8a;
+}
+
+body {
+    background:
+        radial-gradient(circle at top, rgba(246, 215, 208, 0.5), transparent 28%),
+        linear-gradient(180deg, #fffaf7 0%, #f8f5f2 35%, #f1f5f3 100%);
+    color: var(--cj-ink);
+}
+
+@layer components {
+    .cj-shell {
+        @apply rounded-3xl border border-white/60 bg-white/70 shadow-[0_20px_60px_rgba(89,72,67,0.10)] backdrop-blur-sm;
+    }
+
+    .cj-pill {
+        @apply inline-flex items-center rounded-full border border-rose-200 bg-rose-50 px-3 py-1 text-xs font-medium uppercase tracking-[0.16em] text-rose-700;
+    }
+
+    .cj-card {
+        @apply rounded-3xl border border-stone-200/80 bg-white/80 p-6 shadow-sm;
+    }
+}
