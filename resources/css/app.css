@@ -24,30 +24,11 @@ body {
 
 @layer components {
     .cj-shell {
-        @apply rounded-[1.5rem] border border-stone-200/70 bg-white/80 shadow-[0_12px_30px_rgba(54,42,31,0.04)] backdrop-blur-sm;
+        @apply rounded-[1.1rem] border border-stone-200/80 bg-white/80 shadow-[0_10px_30px_rgba(54,42,31,0.05)] backdrop-blur-sm;
     }
 
     .cj-bento {
-        @apply relative overflow-hidden rounded-[1.5rem] border border-stone-200/70 bg-white/80 p-5 shadow-[0_12px_28px_rgba(54,42,31,0.04)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_36px_rgba(54,42,31,0.06)];
-    }
-
-    .cj-bento::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(135deg, rgba(255,255,255,0.7), rgba(255,255,255,0));
-        opacity: 0.9;
-        transition: transform 0.35s ease;
-        transform: translateX(12%) scale(1.05);
-    }
-
-    .cj-bento:hover::before {
-        transform: translateX(0) scale(1);
-    }
-
-    .cj-bento > * {
-        position: relative;
-        z-index: 1;
+        @apply rounded-[1.1rem] border border-stone-200/80 bg-white/80 p-4 shadow-[0_8px_24px_rgba(54,42,31,0.04)] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_28px_rgba(54,42,31,0.07)];
     }
 
     .cj-pill {
@@ -55,22 +36,22 @@ body {
     }
 
     .cj-card {
-        @apply rounded-[1.6rem] border border-stone-200/80 bg-white/80 p-5;
+        @apply rounded-[1rem] border border-stone-200/80 bg-white/80 p-5;
     }
 
     .cj-input {
-        @apply mt-1 block w-full rounded-2xl border border-stone-200 bg-white px-3 py-2.5 text-sm text-stone-800 shadow-[0_8px_18px_rgba(42,31,25,0.02)] transition focus:border-stone-400 focus:outline-none focus:ring-2 focus:ring-stone-200;
+        @apply mt-1 block w-full rounded-xl border border-stone-200 bg-white px-3 py-2.5 text-sm text-stone-800 shadow-[0_6px_16px_rgba(42,31,25,0.02)] transition focus:border-stone-400 focus:outline-none focus:ring-2 focus:ring-stone-200;
     }
 
     .cj-button-primary {
-        @apply inline-flex items-center justify-center rounded-2xl bg-stone-900 px-4 py-3 text-sm font-semibold text-white shadow-[0_10px_24px_rgba(28,25,23,0.18)] transition hover:bg-stone-700;
+        @apply inline-flex items-center justify-center rounded-lg bg-stone-900 px-4 py-3 text-sm font-semibold text-white shadow-[0_8px_18px_rgba(28,25,23,0.14)] transition hover:bg-stone-700;
     }
 
     .cj-button-ghost {
-        @apply inline-flex items-center justify-center rounded-2xl border border-stone-200 bg-white px-4 py-3 text-sm font-semibold text-stone-700 transition hover:border-stone-300 hover:bg-stone-50;
+        @apply inline-flex items-center justify-center rounded-lg border border-stone-200 bg-white px-4 py-3 text-sm font-semibold text-stone-700 transition hover:border-stone-300 hover:bg-stone-50;
     }
 
     .cj-auth-panel {
-        @apply rounded-[1.75rem] border border-stone-200/70 bg-white/80 shadow-[0_14px_40px_rgba(76,59,48,0.06)] backdrop-blur-sm;
+        @apply rounded-[1.3rem] border border-stone-200/80 bg-white/80 shadow-[0_16px_42px_rgba(76,59,48,0.06)] backdrop-blur-sm;
     }
 }

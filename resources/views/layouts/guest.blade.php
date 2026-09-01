@@ -19,7 +19,7 @@
             <div class="mx-auto max-w-6xl">
                 <div class="cj-auth-panel overflow-hidden">
                     <div class="grid min-h-[760px] lg:grid-cols-[1.08fr_0.92fr]">
-                        <div class="relative hidden overflow-hidden border-r border-stone-200/60 bg-[linear-gradient(135deg,_#f5ece7_0%,_#f9f5f2_38%,_#edf4f1_100%)] p-8 lg:flex lg:items-end">
+                        <div class="relative hidden overflow-hidden border-r border-stone-200/80 bg-[linear-gradient(135deg,_#f5ece7_0%,_#f9f5f2_38%,_#edf4f1_100%)] p-8 lg:flex lg:items-end">
                             <div class="absolute inset-0 bg-[radial-gradient(circle_at_18%_15%,_rgba(255,255,255,0.8),_transparent_22%),radial-gradient(circle_at_85%_18%,_rgba(215,179,164,0.18),_transparent_28%)]"></div>
 
                             <div class="relative z-10 w-full max-w-lg">

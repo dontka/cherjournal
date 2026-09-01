@@ -1,31 +1,37 @@
 <x-app-layout>
     <div class="py-8">
-        <div class="mx-auto max-w-[1380px] space-y-6 px-2 sm:px-3 lg:px-4">
-            <div class="cj-shell px-5 py-5 sm:px-8">
-                <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-                    <div>
-                        <p class="text-xs font-semibold uppercase tracking-[0.22em] text-stone-500">Compte</p>
-                        <h3 class="mt-2 text-2xl font-bold text-stone-900">Personnalise ton identité</h3>
+        <div class="mx-auto max-w-[1380px] space-y-5 px-2 sm:px-3 lg:px-4">
+            <div class="grid gap-4 lg:grid-cols-12">
+                <div class="cj-bento bg-[linear-gradient(135deg,_#fffaf7_0%,_#f5eae4_100%)] lg:col-span-12">
+                    <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+                        <div>
+                            <p class="text-[10px] font-semibold uppercase tracking-[0.22em] text-stone-500">Compte</p>
+                            <h3 class="mt-2 text-2xl font-bold text-stone-900">Personnalise ton identité</h3>
+                        </div>
+                        <span class="rounded-md bg-rose-50 px-3 py-1 text-[11px] font-medium text-rose-700">Espace personnel sécurisé</span>
                     </div>
-                    <span class="rounded-full bg-rose-50 px-3 py-1 text-xs font-medium text-rose-700">Espace personnel sécurisé</span>
                 </div>
-            </div>
 
-            <div class="grid gap-4 xl:grid-cols-12">
-                <div class="cj-bento xl:col-span-7 bg-[linear-gradient(135deg,_#fffaf8_0%,_#f3e7e3_100%)] p-4 sm:p-6">
+                <div class="cj-shell p-4 sm:p-6 lg:col-span-8">
                     <div class="max-w-2xl">
                         <livewire:profile.update-profile-information-form />
                     </div>
                 </div>
 
-                <div class="space-y-4 xl:col-span-5">
-                    <div class="cj-bento bg-[linear-gradient(135deg,_#f4faf6_0%,_#ddefe3_100%)] p-4 sm:p-6">
+                <div class="space-y-4 lg:col-span-4">
+                    <div class="cj-bento bg-[linear-gradient(135deg,_#f0f9f5_0%,_#dff3e7_100%)]">
+                        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-stone-500">Confidentialité</p>
+                        <h4 class="mt-3 text-xl font-bold text-stone-900">Anonymat actif</h4>
+                        <p class="mt-2 text-sm leading-6 text-stone-600">Ton profil reste protégé et ton espace est pensé pour une présence rassurante.</p>
+                    </div>
+
+                    <div class="cj-shell p-4 sm:p-5">
                         <div class="max-w-xl">
                             <livewire:profile.update-password-form />
                         </div>
                     </div>
 
-                    <div class="cj-bento bg-[linear-gradient(135deg,_#fff5f5_0%,_#f8e3e6_100%)] p-4 sm:p-6">
+                    <div class="cj-shell p-4 sm:p-5">
                         <div class="max-w-xl">
                             <livewire:profile.delete-user-form />
                         </div>
