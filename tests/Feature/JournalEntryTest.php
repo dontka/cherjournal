@@ -49,6 +49,11 @@ class JournalEntryTest extends TestCase
             'visibility' => 'private',
             'is_anonymous' => true,
         ]);
+        $this->assertDatabaseHas('point_transactions', [
+            'user_id' => $user->id,
+            'amount' => 5,
+            'action' => 'journal_entry_created',
+        ]);
     }
 
     public function test_user_can_create_a_published_entry(): void
@@ -195,9 +200,9 @@ class JournalEntryTest extends TestCase
         foreach (range(1, 12) as $index) {
             JournalEntry::create([
                 'user_id' => $user->id,
-                'title' => 'Entrée ' . $index,
-                'slug' => 'entree-' . $index,
-                'content' => 'Contenu de l’entrée ' . $index,
+                'title' => 'Entrée '.$index,
+                'slug' => 'entree-'.$index,
+                'content' => 'Contenu de l’entrée '.$index,
                 'status' => 'draft',
                 'visibility' => 'private',
                 'is_anonymous' => false,

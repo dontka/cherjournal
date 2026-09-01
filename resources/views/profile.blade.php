@@ -8,7 +8,10 @@
                             <p class="text-[10px] font-semibold uppercase tracking-[0.22em] text-stone-500">Compte</p>
                             <h3 class="mt-2 text-2xl font-bold text-stone-900">Personnalise ton identité</h3>
                         </div>
-                            <a href="{{ route('onboarding') }}" wire:navigate class="rounded-full bg-stone-900 px-3 py-2 text-[11px] font-semibold text-white transition hover:bg-stone-700">Personnaliser mon espace</a>
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="rounded-full bg-amber-50 px-3 py-1 text-[11px] font-semibold text-amber-700">{{ auth()->user()->profile?->points ?? 0 }} points</span>
+                                <a href="{{ route('onboarding') }}" wire:navigate class="rounded-full bg-stone-900 px-3 py-2 text-[11px] font-semibold text-white transition hover:bg-stone-700">Personnaliser mon espace</a>
+                            </div>
                     </div>
                 </div>
 

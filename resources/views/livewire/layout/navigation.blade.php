@@ -53,12 +53,16 @@ new class extends Component
 
             <div class="hidden items-center gap-2 sm:flex">
                 <div class="flex items-center gap-2 rounded-full border border-stone-200 bg-stone-50 px-2 py-1.5 shadow-[0_8px_20px_rgba(70,58,52,0.03)]">
-                    <div class="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-rose-200 to-orange-100 text-[11px] font-bold text-stone-700">
-                        {{ strtoupper(substr(auth()->user()->name ?? 'C', 0, 1)) }}
-                    </div>
+                    @if (auth()->user()->profile?->avatar_url)
+                        <img src="{{ auth()->user()->profile->avatar_url }}" alt="Avatar de {{ auth()->user()->profile->display_name ?: auth()->user()->name }}" class="h-8 w-8 rounded-full object-cover" />
+                    @else
+                        <div class="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-rose-200 to-orange-100 text-[11px] font-bold text-stone-700">
+                            {{ strtoupper(substr(auth()->user()->name ?? 'C', 0, 1)) }}
+                        </div>
+                    @endif
                     <div class="hidden text-left leading-tight xl:block">
                         <div class="text-sm font-semibold text-stone-800" x-data="{{ json_encode(['name' => auth()->user()->name]) }}" x-text="name" x-on:profile-updated.window="name = $event.detail.name"></div>
-                        <div class="text-[11px] text-stone-500">{{ auth()->user()->username ?: 'Compte' }}</div>
+                        <div class="text-[11px] text-stone-500">{{ auth()->user()->username ?: 'Compte' }} · {{ auth()->user()->profile?->points ?? 0 }} pts</div>
                     </div>
                 </div>
 
