@@ -55,3 +55,47 @@ body {
         @apply rounded-[1.3rem] border border-stone-200/80 bg-white/80 shadow-[0_16px_42px_rgba(76,59,48,0.06)] backdrop-blur-sm;
     }
 }
+
+.tiptap-editor {
+    min-height: 260px;
+    outline: none;
+}
+
+.tiptap-editor > * + * {
+    margin-top: 0.75em;
+}
+
+.tiptap-editor p,
+.tiptap-editor li,
+.tiptap-editor strong,
+.tiptap-editor em {
+    color: #292524;
+}
+
+.tiptap-editor h3 {
+    font-size: 1.125rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: #1c1917;
+}
+
+.tiptap-editor ul,
+.tiptap-editor ol {
+    padding-left: 1.25rem;
+}
+
+.tiptap-editor ul {
+    list-style: disc;
+}
+
+.tiptap-editor ol {
+    list-style: decimal;
+}
+
+.tiptap-editor strong {
+    font-weight: 700;
+}
+
+.tiptap-editor em {
+    font-style: italic;
+}

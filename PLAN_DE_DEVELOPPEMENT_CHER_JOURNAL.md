@@ -301,7 +301,7 @@ Créer l’espace personnel “Mon Journal”, qui est le pôle central de l’a
 
 ### 3.2 Journal personnel
 
-- - Le champ de publication et des commentaires doit-etre un markdown simple comme un bloc note:
+- Le champ de publication dans le journal doit-etre un editeur simple comme un bloc note comme l'editeur TipTap gratuit;
 - créer une entrée ;
 - sauvegarder un brouillon ;
 - publier une entrée ;
@@ -372,7 +372,7 @@ Créer les contenus publics et les interactions communautaires de base avec exp�
 
 ### 4.1 Publication texte
 
-- Le champ de publication et des commentaires doit-etre un markdown simple comme un bloc note:
+- Le champ de publication dans le journal doit-etre un editeur simple comme un bloc note comme l'editeur TipTap gratuit:
 - création d’une publication texte ;
 - champ titre facultatif ;
 - contenu principal ;
