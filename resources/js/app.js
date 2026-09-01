@@ -33,23 +33,21 @@ window.journalNoteEditor = function () {
                     extensions: [
                         StarterKit,
                         Placeholder.configure({
-                            placeholder: 'Commencez à écrire…',
+                            placeholder: 'Commencez votre pensée…',
                             emptyEditorClass: 'is-editor-empty',
                         }),
                         Highlight,
                         TaskList,
-                        TaskItem.configure({
-                            nested: true,
-                        }),
+                        TaskItem.configure({ nested: true }),
                         TextAlign.configure({
                             types: ['heading', 'paragraph'],
                             alignments: ['left', 'center', 'right'],
                         }),
                     ],
-                    content: input.value || '<p></p>',
+                    content: input.value || '<h1>Journal</h1><p>Commencez ici…</p>',
                     editorProps: {
                         attributes: {
-                            class: 'tiptap-editor min-h-[320px] px-4 pb-6 pt-4 text-[15px] leading-7 text-stone-800 focus:outline-none',
+                            class: 'tiptap-editor min-h-[360px] px-4 pb-6 pt-4 text-[15px] leading-7 text-stone-800 focus:outline-none',
                         },
                     },
                     onUpdate: ({ editor }) => {
@@ -60,53 +58,63 @@ window.journalNoteEditor = function () {
                 element.__journalEditor = editor;
                 this.editor = editor;
 
+                const applyBlockAction = (action) => {
+                    if (!editor || !editor.isEditable) {
+                        return;
+                    }
+
+                    switch (action) {
+                        case 'title':
+                            editor.chain().focus().toggleHeading({ level: 1 }).run();
+                            break;
+                        case 'heading':
+                            editor.chain().focus().toggleHeading({ level: 3 }).run();
+                            break;
+                        case 'paragraph':
+                            editor.chain().focus().setParagraph().run();
+                            break;
+                        case 'bullet-list':
+                            editor.chain().focus().toggleBulletList().run();
+                            break;
+                        case 'task-list':
+                            editor.chain().focus().toggleTaskList().run();
+                            break;
+                        case 'quote':
+                            editor.chain().focus().toggleBlockquote().run();
+                            break;
+                        case 'code':
+                            editor.chain().focus().toggleCodeBlock().run();
+                            break;
+                        case 'bold':
+                            editor.chain().focus().toggleBold().run();
+                            break;
+                        case 'italic':
+                            editor.chain().focus().toggleItalic().run();
+                            break;
+                        case 'strike':
+                            editor.chain().focus().toggleStrike().run();
+                            break;
+                        case 'highlight':
+                            editor.chain().focus().toggleHighlight().run();
+                            break;
+                        case 'align-left':
+                            editor.chain().focus().setTextAlign('left').run();
+                            break;
+                        case 'align-center':
+                            editor.chain().focus().setTextAlign('center').run();
+                            break;
+                        case 'align-right':
+                            editor.chain().focus().setTextAlign('right').run();
+                            break;
+                        default:
+                            break;
+                    }
+                };
+
                 this.$el.querySelectorAll('[data-editor-action]').forEach((button) => {
                     button.addEventListener('click', (event) => {
                         event.preventDefault();
-                        const action = button.dataset.editorAction;
-
-                        if (!editor || !editor.isEditable) {
-                            return;
-                        }
-
-                        switch (action) {
-                            case 'bold':
-                                editor.chain().focus().toggleBold().run();
-                                break;
-                            case 'italic':
-                                editor.chain().focus().toggleItalic().run();
-                                break;
-                            case 'strike':
-                                editor.chain().focus().toggleStrike().run();
-                                break;
-                            case 'highlight':
-                                editor.chain().focus().toggleHighlight().run();
-                                break;
-                            case 'bullet-list':
-                                editor.chain().focus().toggleBulletList().run();
-                                break;
-                            case 'task-list':
-                                editor.chain().focus().toggleTaskList().run();
-                                break;
-                            case 'heading': {
-                                const isHeading = editor.isActive('heading', { level: 3 });
-                                editor.chain().focus().toggleHeading({ level: 3 }).run();
-
-                                if (isHeading) {
-                                    editor.chain().focus().setParagraph().run();
-                                }
-                                break;
-                            }
-                            case 'align-left':
-                                editor.chain().focus().setTextAlign('left').run();
-                                break;
-                            case 'align-center':
-                                editor.chain().focus().setTextAlign('center').run();
-                                break;
-                            case 'align-right':
-                                editor.chain().focus().setTextAlign('right').run();
-                                break;
-                        }
+                        applyBlockAction(button.dataset.editorAction);
                     });
                 });
             });

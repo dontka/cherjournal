@@ -107,15 +107,22 @@ new class extends Component
         <div>
             <label for="journal-content" class="mb-1 block text-sm font-medium text-stone-700">Écriture</label>
 
-            <div class="overflow-hidden rounded-[1.35rem] border border-stone-200 bg-white shadow-[0_8px_18px_rgba(42,31,25,0.02)]">
+            <div class="overflow-hidden rounded-[1.45rem] border border-stone-200 bg-white shadow-[0_10px_28px_rgba(42,31,25,0.05)]">
                 <div class="flex flex-wrap items-center gap-2 border-b border-stone-200 bg-stone-50 px-3 py-2.5">
-                    <button type="button" data-editor-action="bold" class="rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-stone-700 transition hover:border-stone-300 hover:bg-stone-100">Gras</button>
-                    <button type="button" data-editor-action="italic" class="rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-stone-700 transition hover:border-stone-300 hover:bg-stone-100">Italique</button>
-                    <button type="button" data-editor-action="strike" class="rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-stone-700 transition hover:border-stone-300 hover:bg-stone-100">Barré</button>
-                    <button type="button" data-editor-action="highlight" class="rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-stone-700 transition hover:border-stone-300 hover:bg-stone-100">Surligner</button>
+                    <button type="button" data-editor-action="title" class="rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-stone-700 transition hover:border-stone-300 hover:bg-stone-100">Titre</button>
+                    <button type="button" data-editor-action="heading" class="rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-stone-700 transition hover:border-stone-300 hover:bg-stone-100">Sous-titre</button>
+                    <button type="button" data-editor-action="paragraph" class="rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-stone-700 transition hover:border-stone-300 hover:bg-stone-100">Texte</button>
                     <button type="button" data-editor-action="bullet-list" class="rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-stone-700 transition hover:border-stone-300 hover:bg-stone-100">Liste</button>
                     <button type="button" data-editor-action="task-list" class="rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-stone-700 transition hover:border-stone-300 hover:bg-stone-100">Checklist</button>
-                    <button type="button" data-editor-action="heading" class="rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-stone-700 transition hover:border-stone-300 hover:bg-stone-100">Titre</button>
+                    <button type="button" data-editor-action="quote" class="rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-stone-700 transition hover:border-stone-300 hover:bg-stone-100">Citation</button>
+                    <button type="button" data-editor-action="code" class="rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-stone-700 transition hover:border-stone-300 hover:bg-stone-100">Code</button>
+                </div>
+
+                <div class="flex flex-wrap items-center gap-2 border-b border-stone-200 bg-white/80 px-3 py-2.5">
+                    <button type="button" data-editor-action="bold" class="rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-stone-700 transition hover:border-stone-300 hover:bg-stone-100">B</button>
+                    <button type="button" data-editor-action="italic" class="rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-stone-700 transition hover:border-stone-300 hover:bg-stone-100">I</button>
+                    <button type="button" data-editor-action="strike" class="rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-stone-700 transition hover:border-stone-300 hover:bg-stone-100">S</button>
+                    <button type="button" data-editor-action="highlight" class="rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-stone-700 transition hover:border-stone-300 hover:bg-stone-100">Mark</button>
                     <button type="button" data-editor-action="align-left" class="rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-stone-700 transition hover:border-stone-300 hover:bg-stone-100">G</button>
                     <button type="button" data-editor-action="align-center" class="rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-stone-700 transition hover:border-stone-300 hover:bg-stone-100">C</button>
                     <button type="button" data-editor-action="align-right" class="rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-stone-700 transition hover:border-stone-300 hover:bg-stone-100">D</button>
