@@ -293,10 +293,6 @@ body {
     text-align: right;
 }
 
-.hidden {
-    display: none !important;
-}
-
 .tiptap-editor > * + * {
     margin-top: 0.9em;
 }
