@@ -33,6 +33,8 @@ new class extends Component
         $this->visibility = $entry->visibility;
         $this->is_anonymous = (bool) $entry->is_anonymous;
         $this->statusMessage = '';
+
+        $this->dispatch('journal-entry-loaded', content: $this->content);
     }
 
     public function saveEntry(): void
@@ -83,7 +85,7 @@ new class extends Component
 };
 ?>
 
-<section x-data="journalNoteEditor()" x-init="init()" x-on:beforeunload="destroy()" class="space-y-5">
+<section x-data="journalNoteEditor()" x-init="init()" x-on:beforeunload="destroy()" x-on:journal-entry-loaded.window="syncEditorContent($event.detail.content)" class="space-y-5">
     <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <div>
             <p class="text-[10px] font-semibold uppercase tracking-[0.22em] text-stone-500">Mon journal</p>
@@ -149,7 +151,6 @@ new class extends Component
                     <option value="published">Publier</option>
                 </select>
             </div>
-
             <div>
                 <label for="journal-visibility" class="mb-1 block text-sm font-medium text-stone-700">Visibilité</label>
                 <select wire:model="visibility" id="journal-visibility" class="w-full rounded-2xl border border-stone-200 bg-white px-3 py-2.5 text-sm text-stone-900 focus:border-rose-400 focus:outline-none focus:ring-2 focus:ring-rose-100">

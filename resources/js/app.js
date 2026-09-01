@@ -9,6 +9,21 @@ import TextAlign from '@tiptap/extension-text-align';
 window.journalNoteEditor = function () {
     return {
         editor: null,
+        syncEditorContent(content) {
+            if (!this.editor || this.editor.isDestroyed) {
+                return;
+            }
+
+            const html = content || '<p>Commencez ici…</p>';
+
+            this.editor.commands.setContent(html, {
+                emitUpdate: false,
+            });
+
+            if (this.$refs.contentInput) {
+                this.$refs.contentInput.value = html;
+            }
+        },
         init() {
             if (this.$el.dataset.journalEditorInitialized === 'true') {
                 return;
@@ -159,6 +174,7 @@ window.journalNoteEditor = function () {
                 this.editor = editor;
                 window.__journalEditorInstance = editor;
                 input.value = editor.getHTML();
+                this.syncEditorContent(input.value || '<p>Commencez ici…</p>');
 
                 if (blockMenuButton) {
                     blockMenuButton.addEventListener('click', (event) => {

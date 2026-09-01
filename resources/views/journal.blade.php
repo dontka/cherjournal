@@ -28,11 +28,11 @@
             </div>
 
             <div class="grid gap-5 lg:grid-cols-12">
-                <div class="cj-shell p-4 sm:p-6 lg:col-span-8">
+                <div class="cj-shell p-4 sm:p-6 lg:col-span-7">
                     <livewire:journal.create-entry-form x-on:edit-journal-entry.window="$wire.loadEntry($event.detail.entryId)" />
                 </div>
 
-                <div class="cj-shell p-5 lg:col-span-4">
+                <div class="cj-shell p-5 lg:col-span-5">
                     <livewire:journal.entries-list x-on:journal-entry-saved.window="$wire.$refresh()" />
                 </div>
             </div>

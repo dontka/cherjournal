@@ -8,6 +8,8 @@ use Livewire\Volt\Component;
 new class extends Component
 {
     public string $filter = 'all';
+    public int $page = 1;
+    public int $perPage = 5;
     public $entries = [];
 
     public function mount(): void
@@ -19,6 +21,7 @@ new class extends Component
     {
         $entry = Auth::user()->journalEntries()->findOrFail($entryId);
         $entry->update(['status' => 'archived']);
+        $this->page = 1;
         $this->entries = $this->getEntriesProperty();
     }
 
@@ -31,11 +34,25 @@ new class extends Component
     {
         $entry = Auth::user()->journalEntries()->findOrFail($entryId);
         $entry->delete();
+        $this->page = 1;
         $this->entries = $this->getEntriesProperty();
     }
 
     public function updatedFilter(): void
     {
+        $this->page = 1;
+        $this->entries = $this->getEntriesProperty();
+    }
+
+    public function nextPage(): void
+    {
+        $this->page++;
+        $this->entries = $this->getEntriesProperty();
+    }
+
+    public function previousPage(): void
+    {
+        $this->page = max(1, $this->page - 1);
         $this->entries = $this->getEntriesProperty();
     }
 
@@ -47,18 +64,24 @@ new class extends Component
             $query->where('status', $this->filter);
         }
 
-        return $query->get();
+        $total = $query->count();
+        $lastPage = max(1, (int) ceil($total / $this->perPage));
+        $this->page = max(1, min($this->page, $lastPage));
+
+        return $query->skip(($this->page - 1) * $this->perPage)
+            ->take($this->perPage)
+            ->get();
     }
 }; ?>
 
-<section class="space-y-4">
-    <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+<section class="space-y-4 lg:space-y-5">
+    <div class="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
         <div>
             <p class="text-[10px] font-semibold uppercase tracking-[0.22em] text-stone-500">Mes notes</p>
-            <h3 class="mt-2 text-2xl font-bold text-stone-900">Historique du journal</h3>
+            <h3 class="mt-2 text-2xl font-bold text-stone-900 lg:text-[1.75rem]">Historique du journal</h3>
         </div>
 
-        <div class="flex flex-wrap gap-2">
+        <div class="flex flex-wrap gap-2 lg:max-w-[22rem] lg:justify-end">
             <button type="button" wire:click="$set('filter', 'all')" class="rounded-full px-3 py-1.5 text-xs font-semibold {{ $filter === 'all' ? 'bg-stone-900 text-white' : 'bg-stone-100 text-stone-600' }}">
                 Tout
             </button>
@@ -74,22 +97,22 @@ new class extends Component
         </div>
     </div>
 
-    <div class="space-y-3">
+    <div class="space-y-3 lg:space-y-4">
         @forelse ($entries as $entry)
-            <article class="rounded-[1.25rem] border border-stone-200 bg-stone-50 p-4">
-                <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                    <div>
-                        <div class="flex items-center gap-2">
-                            <h4 class="text-lg font-bold text-stone-900">{{ $entry->title ?: 'Sans titre' }}</h4>
+            <article class="rounded-[1.25rem] border border-stone-200 bg-stone-50 p-4 transition hover:border-stone-300 hover:bg-stone-100/80 lg:p-5">
+                <div class="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
+                    <div class="min-w-0 flex-1">
+                        <div class="flex flex-wrap items-center gap-2">
+                            <h4 class="text-base font-bold text-stone-900 lg:text-lg">{{ $entry->title ?: 'Sans titre' }}</h4>
                             <span class="rounded-full bg-white px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-stone-500">{{ $entry->status }}</span>
                         </div>
                         @php
                             $preview = trim(preg_replace('/\s+/', ' ', strip_tags($entry->content ?? '')));
                         @endphp
-                        <p class="mt-2 text-sm leading-6 text-stone-600">{{ Str::limit($preview ?: 'Aucun contenu', 160) }}</p>
+                        <p class="mt-2 text-sm leading-6 text-stone-600 lg:pr-3">{{ Str::limit($preview ?: 'Aucun contenu', 160) }}</p>
                     </div>
 
-                    <div class="flex items-center gap-2">
+                    <div class="flex flex-wrap items-center gap-2 lg:min-w-[10.5rem] lg:flex-col lg:items-stretch">
                         <button type="button" wire:click="editEntry({{ $entry->id }})" class="rounded-full border border-stone-200 bg-white px-3 py-1.5 text-xs font-semibold text-stone-700">Modifier</button>
                         @if ($entry->status !== 'archived')
                             <button type="button" wire:click="archiveEntry({{ $entry->id }})" class="rounded-full border border-stone-200 bg-white px-3 py-1.5 text-xs font-semibold text-stone-700">Archiver</button>
@@ -104,4 +127,28 @@ new class extends Component
             </div>
         @endforelse
     </div>
+
+    @php
+        $totalEntries = Auth::user()->journalEntries();
+        if ($this->filter !== 'all') {
+            $totalEntries = $totalEntries->where('status', $this->filter);
+        }
+        $totalPages = max(1, (int) ceil($totalEntries->count() / $this->perPage));
+    @endphp
+
+    @if ($totalEntries->count() > $this->perPage)
+        <div class="flex items-center justify-between border-t border-stone-200 pt-4">
+            <button type="button" wire:click="previousPage" @disabled($this->page <= 1) class="rounded-full border border-stone-200 bg-white px-3 py-1.5 text-xs font-semibold text-stone-700 disabled:cursor-not-allowed disabled:opacity-50">
+                Précédent
+            </button>
+
+            <span class="text-xs font-medium text-stone-600">
+                Page {{ $this->page }} / {{ $totalPages }}
+            </span>
+
+            <button type="button" wire:click="nextPage" @disabled($this->page >= $totalPages) class="rounded-full border border-stone-200 bg-white px-3 py-1.5 text-xs font-semibold text-stone-700 disabled:cursor-not-allowed disabled:opacity-50">
+                Suivant
+            </button>
+        </div>
+    @endif
 </section>

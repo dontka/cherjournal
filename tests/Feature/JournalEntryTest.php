@@ -164,6 +164,29 @@ class JournalEntryTest extends TestCase
             ->assertDontSee('<strong>');
     }
 
+    public function test_journal_history_has_pagination_for_many_entries(): void
+    {
+        $user = User::factory()->create();
+
+        foreach (range(1, 12) as $index) {
+            JournalEntry::create([
+                'user_id' => $user->id,
+                'title' => 'Entrée ' . $index,
+                'slug' => 'entree-' . $index,
+                'content' => 'Contenu de l’entrée ' . $index,
+                'status' => 'draft',
+                'visibility' => 'private',
+                'is_anonymous' => false,
+            ]);
+        }
+
+        $this->actingAs($user)
+            ->get('/journal')
+            ->assertOk()
+            ->assertSee('Historique du journal')
+            ->assertSee('Suivant');
+    }
+
     public function test_dashboard_displays_user_journal_summary_and_actions(): void
     {
         $user = User::factory()->create();
