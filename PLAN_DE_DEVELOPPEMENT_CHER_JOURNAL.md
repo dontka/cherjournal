@@ -301,6 +301,7 @@ Créer l’espace personnel “Mon Journal”, qui est le pôle central de l’a
 
 ### 3.2 Journal personnel
 
+- - Le champ de publication et des commentaires doit-etre un markdown simple comme un bloc note:
 - créer une entrée ;
 - sauvegarder un brouillon ;
 - publier une entrée ;
